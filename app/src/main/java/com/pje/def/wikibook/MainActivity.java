@@ -11,6 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.fragment.BookCollectionFragment;
+import com.pje.def.wikibook.fragment.BookCreatorFragment;
+import com.pje.def.wikibook.fragment.ContentFragment;
+import com.pje.def.wikibook.model.Book;
+import com.pje.def.wikibook.model.BookCollection;
+import com.pje.def.wikibook.model.BookFilterCatalog;
+
 public class MainActivity extends AppCompatActivity {
 
     //Defining Variables
@@ -18,11 +26,21 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
+    public static BookCollection books;
+    public static BookFilterCatalog filters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        books.addBook(new Book("Oui-Oui à la cantine","Oui-oui Himself","Jeunesse","1994","Oui-Oui mange à la cantine","00001", R.drawable.icone));
+        //books.addBook(new Book("Kamasutra","God Himself","Chasse","-870","Recueil","00002",R.drawable.icone));
+        books.addBook(new Book("Harry Potter et à l'école des sorciers","J.K. Rowling","Jeunesse","1992","Un jeune sorcier découvre la magie","00003",R.drawable.icone));
+        books.addBook(new Book("Harry Potter et la chambre des secrets","J.K. Rowling","Jeunesse","1994","La chambre des secrets est ouverte ...","00004",R.drawable.icone));
+        books.addBook(new Book("Harry Potter et le prisonnier d'Askaban","J.K. Rowling","Jeunesse","1999","Harry rencontre son oncle...","00005",R.drawable.icone));
+        books.addBook(new Book("Titeuf", "Zep", "Jeunesse", "2005", "Tchô !!", "00006", R.drawable.icone));
+        books.addBook(new Book("Asterix", "Uderzo", "Tout public", "1999", "Ils sont fou ces romains", "00007", R.drawable.icone));
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,15 +70,16 @@ public class MainActivity extends AppCompatActivity {
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.collection:
                         Toast.makeText(getApplicationContext(),"Collection Selected",Toast.LENGTH_SHORT).show();
-                        ContentFragment fragment = new ContentFragment();
-                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame,fragment).commit();
+                        BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
                         return true;
 
                     // For rest of the options we just show a toast on click
 
                     case R.id.add_book:
-                        Toast.makeText(getApplicationContext(),"Add Book Selected",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Add Book Selected", Toast.LENGTH_SHORT).show();
+                        BookCreatorFragment fragmentBookCreator = new BookCreatorFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCreator).commit();
                         return true;
                     case R.id.filter_list:
                         Toast.makeText(getApplicationContext(),"Filter List Selected",Toast.LENGTH_SHORT).show();
@@ -127,5 +146,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void createBook(View view){
+
     }
 }
