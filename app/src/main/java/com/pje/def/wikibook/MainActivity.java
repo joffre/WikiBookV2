@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.fragment.BookCollectionFragment;
 import com.pje.def.wikibook.fragment.BookCreatorFragment;
+import com.pje.def.wikibook.fragment.BookFilterCreatorFragment;
+import com.pje.def.wikibook.fragment.BookFilterCatalogFragment;
 import com.pje.def.wikibook.fragment.ContentFragment;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
@@ -34,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        books.addBook(new Book("Oui-Oui à la cantine","Oui-oui Himself","Jeunesse","1994","Oui-Oui mange à la cantine","00001", R.drawable.icone));
-        //books.addBook(new Book("Kamasutra","God Himself","Chasse","-870","Recueil","00002",R.drawable.icone));
+        books.addBook(new Book("Oui-Oui à la cantine", "Oui-oui Himself", "Jeunesse", "1994", "Oui-Oui mange à la cantine", "00001", R.drawable.icone));
+        books.addBook(new Book("Kamasutra","God Himself","Chasse","-870","Recueil","00002",R.drawable.icone));
         books.addBook(new Book("Harry Potter et à l'école des sorciers","J.K. Rowling","Jeunesse","1992","Un jeune sorcier découvre la magie","00003",R.drawable.icone));
         books.addBook(new Book("Harry Potter et la chambre des secrets","J.K. Rowling","Jeunesse","1994","La chambre des secrets est ouverte ...","00004",R.drawable.icone));
         books.addBook(new Book("Harry Potter et le prisonnier d'Askaban","J.K. Rowling","Jeunesse","1999","Harry rencontre son oncle...","00005",R.drawable.icone));
@@ -83,9 +85,13 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.filter_list:
                         Toast.makeText(getApplicationContext(),"Filter List Selected",Toast.LENGTH_SHORT).show();
+                        BookFilterCatalogFragment fragmentBookFilterCatalog = new BookFilterCatalogFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookFilterCatalog).commit();
                         return true;
                     case R.id.create_filter:
                         Toast.makeText(getApplicationContext(),"Create Filter Selected",Toast.LENGTH_SHORT).show();
+                        BookFilterCreatorFragment fragmentBookFilterCreator = new BookFilterCreatorFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookFilterCreator).commit();
                         return true;
                     default:
                         Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();

@@ -16,6 +16,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.EditBookActivity"
+            android:label="@string/EditBook" />
+        <activity
+            android:name=".activity.EditBookFilterActivity"
+            android:label="@string/title_activity_edit_book_filter" >
+        </activity>
+        <activity
+            android:name=".activity.FiltredCollectionActivity"
+            android:label="@string/title_activity_filtred_book_collection" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/filter_action_del"
+        android:icon="@drawable/ic_delete_white"
+        app:showAsAction="always"/>
+    <item android:id="@+id/filter_action_edit"
+        android:icon="@drawable/ic_edit_white"
+        app:showAsAction="always"/>
+    <item android:id="@+id/filter_action_see"
+        android:icon="@drawable/ic_action_search_white"
+        app:showAsAction="always"/>
+</menu>
