@@ -1,0 +1,208 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.pje.def.wikibook.fragment.BookCreatorFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/title"
+            android:id="@+id/TextTitle"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintTitle"
+            android:id="@+id/EditTitle"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/author"
+            android:id="@+id/textAuthor"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintAuthor"
+            android:id="@+id/EditAuthor"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/year"
+            android:id="@+id/textYear"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintYear"
+            android:id="@+id/EditYear"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/genre"
+            android:id="@+id/textGenre"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintGenre"
+            android:id="@+id/EditGenre"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/description"
+            android:id="@+id/textDescription"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintDescription"
+            android:id="@+id/EditDescription"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/isbn"
+            android:id="@+id/textIsbn"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hintIsbn"
+            android:id="@+id/EditIsbn"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="356dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:paddingTop="10dp">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="previous"
+            android:id="@+id/button"
+            android:layout_below="@+id/textView"
+            android:layout_centerHorizontal="true" />
+
+        <ImageSwitcher
+            android:adjustViewBounds="true"
+            android:id="@+id/imageSwitcher1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:minHeight="80dp"
+            android:minWidth="80dp"
+            android:maxHeight="80dp"
+            android:maxWidth="80dp"></ImageSwitcher>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="next"
+            android:id="@+id/button2"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/button"
+            android:layout_alignStart="@+id/button"
+            android:paddingLeft="10dp"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/CreateBook"
+        android:id="@+id/btn_create"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="10dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
