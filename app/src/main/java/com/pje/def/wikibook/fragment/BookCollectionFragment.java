@@ -162,10 +162,6 @@ public class BookCollectionFragment extends Fragment {
             bookMap.put("img", String.valueOf(book.getId_img())); // use available img
             bookMap.put("author", book.getAuthor());
             bookMap.put("title", book.getTitle());
-            bookMap.put("gender", book.getGender());
-            bookMap.put("isbn", book.getIsbn());
-            bookMap.put("year", book.getYear());
-            bookMap.put("description", book.getDescription());
             l_books.add(bookMap);
         }
 
