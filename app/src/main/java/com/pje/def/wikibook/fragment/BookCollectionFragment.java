@@ -171,8 +171,8 @@ public class BookCollectionFragment extends Fragment {
 
         SimpleAdapter listAdapter = new SimpleAdapter(getActivity().getBaseContext(), l_books, R.layout.book_detail,
                 /*ajout gender*/
-                new String[] {"img", "author", "title", "gender", "isbn", "year", "description"},
-                new int[] {R.id.img_cover, R.id.author, R.id.title, R.id.gender, R.id.isbn, R.id.year, R.id.description});
+                new String[] {"img", "author", "title"},
+                new int[] {R.id.img_cover, R.id.author, R.id.title});
 
         bookList.setAdapter(listAdapter);
     }
