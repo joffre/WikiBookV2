@@ -11,7 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.bdd.BookDetails;
+import com.pje.def.wikibook.bdd.DatabaseHandler;
+import com.pje.def.wikibook.bdd.FilterDetails;
 import com.pje.def.wikibook.fragment.BookCollectionFragment;
 import com.pje.def.wikibook.fragment.BookCreatorFragment;
 import com.pje.def.wikibook.fragment.BookFilterCreatorFragment;
@@ -19,7 +23,11 @@ import com.pje.def.wikibook.fragment.BookFilterCatalogFragment;
 import com.pje.def.wikibook.fragment.ContentFragment;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
+import com.pje.def.wikibook.model.BookFilter;
 import com.pje.def.wikibook.model.BookFilterCatalog;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,18 +39,37 @@ public class MainActivity extends AppCompatActivity {
     public static BookCollection books;
     public static BookFilterCatalog filters;
 
+    private static DatabaseHandler databaseHandler = null;
+    private static boolean isInitialized;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(!isInitialized) {
+            try {
+                List<BookDetails> booksDetails = getHelper().getBookDao().queryForAll();
+                for(BookDetails bookDetails : booksDetails){
+                    books.addBook(new Book(bookDetails, R.drawable.icone));
+                }
+               /* books.addBook(new Book("Oui-Oui à la cantine", "Oui-oui Himself", "Jeunesse", "1994", "Oui-Oui mange à la cantine", "00001", R.drawable.icone));
+                //books.addBook(new Book("Kamasutra","God Himself","Chasse","-870","Recueil","00002",R.drawable.icone));
+                books.addBook(new Book("Harry Potter et à l'école des sorciers", "J.K. Rowling", "Jeunesse", "1992", "Un jeune sorcier découvre la magie", "00003", R.drawable.icone));
+                books.addBook(new Book("Harry Potter et la chambre des secrets", "J.K. Rowling", "Jeunesse", "1994", "La chambre des secrets est ouverte ...", "00004", R.drawable.icone));
+                books.addBook(new Book("Harry Potter et le prisonnier d'Askaban", "J.K. Rowling", "Jeunesse", "1999", "Harry rencontre son oncle...", "00005", R.drawable.icone));
+                books.addBook(new Book("Titeuf", "Zep", "Jeunesse", "2005", "Tchô !!", "00006", R.drawable.icone));
+                books.addBook(new Book("Asterix", "Uderzo", "Tout public", "1999", "Ils sont fou ces romains", "00007", R.drawable.icone));
+               */
 
-        books.addBook(new Book("Oui-Oui à la cantine", "Oui-oui Himself", "Jeunesse", "1994", "Oui-Oui mange à la cantine", "00001", R.drawable.icone));
-        //books.addBook(new Book("Kamasutra","God Himself","Chasse","-870","Recueil","00002",R.drawable.icone));
-        books.addBook(new Book("Harry Potter et à l'école des sorciers","J.K. Rowling","Jeunesse","1992","Un jeune sorcier découvre la magie","00003",R.drawable.icone));
-        books.addBook(new Book("Harry Potter et la chambre des secrets","J.K. Rowling","Jeunesse","1994","La chambre des secrets est ouverte ...","00004",R.drawable.icone));
-        books.addBook(new Book("Harry Potter et le prisonnier d'Askaban","J.K. Rowling","Jeunesse","1999","Harry rencontre son oncle...","00005",R.drawable.icone));
-        books.addBook(new Book("Titeuf", "Zep", "Jeunesse", "2005", "Tchô !!", "00006", R.drawable.icone));
-        books.addBook(new Book("Asterix", "Uderzo", "Tout public", "1999", "Ils sont fou ces romains", "00007", R.drawable.icone));
+                List<FilterDetails> filtersDetails = getHelper().getFilterDao().queryForAll();
+                for(FilterDetails filterDetails : filtersDetails){
+                    filters.addBookFilter(new BookFilter(filterDetails));
+                }
+                isInitialized = true;
+            } catch(SQLException exception){
+
+            }
+        }
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -124,12 +151,13 @@ public class MainActivity extends AppCompatActivity {
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
 
-
-
-
-
-
+    public DatabaseHandler getHelper(){
+        if(databaseHandler == null){
+            databaseHandler = OpenHelperManager.getHelper(this, DatabaseHandler.class);
+        }
+        return databaseHandler;
     }
 
     @Override
@@ -153,4 +181,14 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(databaseHandler != null){
+            OpenHelperManager.releaseHelper();
+            databaseHandler = null;
+        }
+    }
+
 }

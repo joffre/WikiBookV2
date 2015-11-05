@@ -15,9 +15,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
+
+import java.sql.SQLException;
 
 
 /**
@@ -187,31 +191,32 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         String s_genre = (!genre.getText().toString().isEmpty()) ? genre.getText().toString() : getResources().getString(R.string.u_genre);
         String s_isbn = (!isbn.getText().toString().isEmpty()) ? isbn.getText().toString() : getResources().getString(R.string.u_isbn);
 
-        Book newBook = new Book(s_title,
-                s_author,
-                s_description,
-                s_year,
-                s_genre,
-                s_isbn,
-                drawables[cpt]);
+        BookDetails newBookDetails = new BookDetails(0, s_title, s_author, s_year, s_genre, s_description, s_isbn);
+        Book newBook = new Book( newBookDetails, drawables[cpt]);
 
 
         BookCollection.addBook(newBook);
-
-        title.getText().clear();
-        author.getText().clear();
-        description.getText().clear();
-        year.getText().clear();
-        genre.getText().clear();
-        isbn.getText().clear();
-
-
-        Context context = getActivity().getApplicationContext();
         CharSequence text = "Your book has been created";
+        try{
+            ((MainActivity) this.getActivity()).getHelper().getBookDao().create(newBookDetails);
+            title.getText().clear();
+            author.getText().clear();
+            description.getText().clear();
+            year.getText().clear();
+            genre.getText().clear();
+            isbn.getText().clear();
+
+
+        } catch(SQLException exception){
+            text = "Your book can't be create";
+        }
+        Context context = getActivity().getApplicationContext();
+
         int duration = Toast.LENGTH_LONG;
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+
     }
 
     public void setDrawable(String type)

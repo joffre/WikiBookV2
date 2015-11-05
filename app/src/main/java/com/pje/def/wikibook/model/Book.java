@@ -1,9 +1,13 @@
 package com.pje.def.wikibook.model;
 
+import com.pje.def.wikibook.bdd.BookDetails;
+
+import java.io.Serializable;
+
 /**
  * Created by S on 24/09/2015.
  */
-public class Book {
+public class Book implements Serializable{
 
     public String title, author, genre, year, description, isbn;
     public int id_img;
@@ -15,6 +19,16 @@ public class Book {
         this.year = year.trim();
         this.description = description.trim();
         this.isbn = isbn.trim();
+        this.id_img = id_img;
+    }
+
+    public Book(BookDetails details, int id_img) {
+        this.title = details.getBookTitle();
+        this.author = details.getBookAuthor();
+        this.genre = details.getBookGenre();
+        this.year = details.getBookYear();
+        this.description = details.getBookDescription();
+        this.isbn = details.getBookIsbn();
         this.id_img = id_img;
     }
 

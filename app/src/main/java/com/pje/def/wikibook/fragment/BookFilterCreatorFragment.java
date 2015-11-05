@@ -12,10 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.bdd.FilterDetails;
+import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.BookFilter;
 import com.pje.def.wikibook.model.BookFilterCatalog;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -137,8 +141,6 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
         criteria.put(BookFilter.FilterType.GENDER, genre.getText().toString());
         criteria.put(BookFilter.FilterType.ISBN, isbn.getText().toString());
 
-        BookFilter newBookFilter = new BookFilter(name.getText().toString(),criteria);
-
         if(BookFilterCatalog.containsNamedFilter(name.getText().toString().trim())){
             Context context = getActivity().getApplicationContext();
             CharSequence text = "Your book filter already exist. Change the filter name !";
@@ -147,18 +149,23 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         } else {
-            BookFilterCatalog.addBookFilter(newBookFilter);
-
-            name.getText().clear();
-            title.getText().clear();
-            author.getText().clear();
-            description.getText().clear();
-            year.getText().clear();
-            genre.getText().clear();
-            isbn.getText().clear();
-
-            Context context = getActivity().getApplicationContext();
+            FilterDetails newBookFilterDetails = new FilterDetails(0, name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), genre.getText().toString(), description.getText().toString(), isbn.getText().toString());
+            BookFilterCatalog.addBookFilter(new BookFilter(newBookFilterDetails));
             CharSequence text = "Your book filter has been created";
+            try{
+                ((MainActivity) this.getActivity()).getHelper().getFilterDao().create(newBookFilterDetails);
+                name.getText().clear();
+                title.getText().clear();
+                author.getText().clear();
+                description.getText().clear();
+                year.getText().clear();
+                genre.getText().clear();
+                isbn.getText().clear();
+            } catch(SQLException exception){
+                text = "Your book filter can't be created";
+            }
+            Context context = getActivity().getApplicationContext();
+
             int duration = Toast.LENGTH_LONG;
 
             Toast toast = Toast.makeText(context, text, duration);

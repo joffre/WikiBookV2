@@ -30,6 +30,10 @@ public class BookDetails implements Serializable {
     @DatabaseField(columnName = "book_isbn")
     protected String bookIsbn;
 
+    public BookDetails(){
+
+    }
+
     public BookDetails(int bookId, String bookTitle, String bookAuthor, String bookYear, String bookGenre, String bookDescription, String bookIsbn) {
         this.bookId = bookId;
         this.bookTitle = bookTitle;

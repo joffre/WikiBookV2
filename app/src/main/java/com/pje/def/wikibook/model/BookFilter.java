@@ -1,5 +1,8 @@
 package com.pje.def.wikibook.model;
 
+import com.pje.def.wikibook.bdd.FilterDetails;
+
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -16,6 +19,17 @@ public class BookFilter{
     public BookFilter(String name, Map<FilterType, String> criteria){
         this.name = name;
         this.criteria = criteria;
+    }
+
+    public BookFilter(FilterDetails filterDetails){
+        this.name = filterDetails.getFilterName();
+        this.criteria = new HashMap<>();
+        this.criteria.put(FilterType.TITLE, filterDetails.getFilterTitle());
+        this.criteria.put(FilterType.AUTHOR, filterDetails.getFilterAuthor());
+        this.criteria.put(FilterType.YEAR, filterDetails.getFilterYear());
+        this.criteria.put(FilterType.GENDER, filterDetails.getFilterGenre());
+        this.criteria.put(FilterType.DESCRIPTION, filterDetails.getFilterDescription());
+        this.criteria.put(FilterType.ISBN, filterDetails.getFilterIsbn());
     }
 
     public String getName(){

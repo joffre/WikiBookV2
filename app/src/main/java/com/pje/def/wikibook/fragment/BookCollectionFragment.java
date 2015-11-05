@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.EditBookActivity;
 import com.pje.def.wikibook.model.Book;
@@ -96,9 +97,24 @@ public class BookCollectionFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
-                getActivity().setTitle(map.get("title"));
+                //getActivity().setTitle(map.get("title"));
                 lastItemClicked = position;
                 System.out.println(position + "   " + id);
+
+                Bundle args = new Bundle();
+                args.putSerializable(BookDetailFragment.BOOK_PARAM, BookCollection.getBooks().get(lastItemClicked));
+
+                BookDetailFragment fragmentBookDetail = new BookDetailFragment();
+                fragmentBookDetail.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).commit();
+            }
+        });
+
+        bookList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                return true;
             }
         });
         getActivity().setTitle("My Collection");
@@ -169,7 +185,7 @@ public class BookCollectionFragment extends Fragment {
                 /*ajout gender*/
                 new String[] {"img", "author", "title"},
                 new int[] {R.id.img_cover, R.id.author, R.id.title});
-
+        bookList.setAdapter(null);
         bookList.setAdapter(listAdapter);
     }
 
