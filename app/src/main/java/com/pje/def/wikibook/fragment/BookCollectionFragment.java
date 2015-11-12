@@ -125,6 +125,7 @@ public class BookCollectionFragment extends Fragment {
                 } else {
                     Bundle args = new Bundle();
                     args.putSerializable(BookDetailFragment.BOOK_PARAM, BookCollection.getBooks().get(lastItemClicked));
+                    args.putSerializable(BookDetailFragment.BOOK_PARAM_ID, lastItemClicked);
 
                     BookDetailFragment fragmentBookDetail = new BookDetailFragment();
                     fragmentBookDetail.setArguments(args);

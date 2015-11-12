@@ -64,4 +64,5 @@
     <string name="title_activity_book_filter_catalog">BookFilterCatalogActivity</string>
     <string name="title_activity_filtred_collection">FiltredCollectionActivity</string>
     <string name="title_activity_filtred_book_collection">FiltredBookCollectionActivity</string>
+    <string name="title_activity_book_detail">BookDetail</string>
 </resources>
