@@ -2,6 +2,7 @@ package com.pje.def.wikibook.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -68,6 +69,8 @@ public class BookCollectionFragment extends Fragment {
     }
 
     int lastItemClicked = -1;
+    List<Integer> selectedItems;
+    boolean selectionMode = false;
     final String BOOK_TO_EDIT = "book_edit";
     private ListView bookList;
 
@@ -89,6 +92,7 @@ public class BookCollectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        selectedItems = new ArrayList<>();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_collection, container, false);
         bookList = (ListView) view.findViewById(R.id.bookList);
@@ -102,20 +106,41 @@ public class BookCollectionFragment extends Fragment {
                 lastItemClicked = position;
                 System.out.println(position + "   " + id);
 
-                Bundle args = new Bundle();
-                args.putSerializable(BookDetailFragment.BOOK_PARAM, BookCollection.getBooks().get(lastItemClicked));
+                if(selectionMode){
+                    if(selectedItems.contains(lastItemClicked)){
+                        //unselection
+                        selectedItems.remove(selectedItems.indexOf(lastItemClicked));
+                        view.setSelected(false);
+                        view.setBackgroundColor(Color.WHITE);
+                        if(selectedItems.isEmpty()){
+                            selectionMode = false;
+                        }
+                    } else {
+                        //selection
+                        selectedItems.add(position);
+                        view.setSelected(true);
+                        view.setBackgroundColor(Color.GREEN);
+                    }
+                    System.out.println(selectedItems);
+                } else {
+                    Bundle args = new Bundle();
+                    args.putSerializable(BookDetailFragment.BOOK_PARAM, BookCollection.getBooks().get(lastItemClicked));
 
-                BookDetailFragment fragmentBookDetail = new BookDetailFragment();
-                fragmentBookDetail.setArguments(args);
-                //push
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).addToBackStack(null).commit();
+                    BookDetailFragment fragmentBookDetail = new BookDetailFragment();
+                    fragmentBookDetail.setArguments(args);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).commit();
+                }
             }
         });
 
         bookList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
+                selectionMode = true;
+                //selection
+                selectedItems.add(position);
+                view.setSelected(true);
+                view.setBackgroundColor(Color.GREEN);
                 return true;
             }
         });
@@ -219,8 +244,10 @@ public class BookCollectionFragment extends Fragment {
     }
 
     public void deleteAction() {
-        if(lastItemClicked != -1) {
-            BookCollection.getBooks().remove(lastItemClicked);
+        if(selectionMode && !selectedItems.isEmpty()) {
+            for(int index : selectedItems) {
+                BookCollection.getBooks().remove(index);
+            }
             majListBook();
             getActivity().setTitle("MyCollection");
             if (BookCollection.getBooks().size() == 0) {
@@ -229,7 +256,7 @@ public class BookCollectionFragment extends Fragment {
                 menuItem = (ActionMenuItemView) getActivity().findViewById(R.id.action_edit);
                 menuItem.setVisibility(View.INVISIBLE);
             }
-            lastItemClicked = -1;
+            selectionMode = false;
         }
     }
 
