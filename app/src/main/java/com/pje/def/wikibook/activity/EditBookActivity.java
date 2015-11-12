@@ -17,6 +17,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.fragment.BookDetailFragment;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
 
@@ -28,7 +29,7 @@ public class EditBookActivity extends Activity {
     private Button b1, b2;
     private int[] drawables = new int[]{R.drawable.icone, R.drawable.icone2};
     private int cpt = 0;
-    final String BOOK_TO_EDIT = "book_edit";
+    public static final String BOOK_TO_EDIT = "book_edit";
     int lastItemChecked;
 
     @Override
@@ -119,7 +120,7 @@ public class EditBookActivity extends Activity {
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
-
+        BookDetailFragment.bEdit = newBook;
         finish();
     }
 
