@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.bdd.DatabaseHandler;
 import com.pje.def.wikibook.bdd.FilterDetails;
@@ -20,7 +19,6 @@ import com.pje.def.wikibook.fragment.BookCollectionFragment;
 import com.pje.def.wikibook.fragment.BookCreatorFragment;
 import com.pje.def.wikibook.fragment.BookFilterCreatorFragment;
 import com.pje.def.wikibook.fragment.BookFilterCatalogFragment;
-import com.pje.def.wikibook.fragment.ContentFragment;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.BookFilter;
@@ -127,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);

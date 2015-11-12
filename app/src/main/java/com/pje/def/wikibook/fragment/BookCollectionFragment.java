@@ -71,6 +71,8 @@ public class BookCollectionFragment extends Fragment {
     int lastItemClicked = -1;
     List<Integer> selectedItems;
     boolean selectionMode = false;
+    Menu menuCollection;
+
     final String BOOK_TO_EDIT = "book_edit";
     private ListView bookList;
 
@@ -106,20 +108,23 @@ public class BookCollectionFragment extends Fragment {
                 lastItemClicked = position;
                 System.out.println(position + "   " + id);
 
-                if(selectionMode){
-                    if(selectedItems.contains(lastItemClicked)){
+                if (selectionMode) {
+                    if (selectedItems.contains(lastItemClicked)) {
                         //unselection
                         selectedItems.remove(selectedItems.indexOf(lastItemClicked));
-                        view.setSelected(false);
-                        view.setBackgroundColor(Color.WHITE);
-                        if(selectedItems.isEmpty()){
+                        //view.setSelected(false);
+                        view.setBackgroundColor(Color.TRANSPARENT);
+                        if (selectedItems.isEmpty()) {
                             selectionMode = false;
+                            getActivity().setTitle("My Collection");
+                            MenuItem menuItem = menuCollection.getItem(0);
+                            menuItem.setVisible(false);
                         }
                     } else {
                         //selection
                         selectedItems.add(position);
-                        view.setSelected(true);
-                        view.setBackgroundColor(Color.GREEN);
+                        // view.setSelected(true);
+                        view.setBackgroundColor(Color.LTGRAY);
                     }
                     System.out.println(selectedItems);
                 } else {
@@ -140,11 +145,15 @@ public class BookCollectionFragment extends Fragment {
                 selectionMode = true;
                 //selection
                 selectedItems.add(position);
-                view.setSelected(true);
-                view.setBackgroundColor(Color.GREEN);
+                //view.setSelected(true);
+                getActivity().setTitle("Selection");
+                view.setBackgroundColor(Color.LTGRAY);
+                MenuItem menuItem = menuCollection.getItem(0);
+                menuItem.setVisible(true);
                 return true;
             }
         });
+
         getActivity().setTitle("My Collection");
         majListBook();
         System.out.println("On create view");
@@ -221,6 +230,11 @@ public class BookCollectionFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_book_collection, menu);
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setVisible(false);
+        this.menuCollection = menu;
+        /*ActionMenuItemView menuItem = (ActionMenuItemView) getActivity().findViewById(R.id.action_del);
+        menuItem.setVisibility(View.INVISIBLE);*/
         //this.menu = menu;
     }
 
@@ -236,36 +250,22 @@ public class BookCollectionFragment extends Fragment {
             deleteAction();
             return true;
         }
-        if(id == R.id.action_edit) {
-            editAction();
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void deleteAction() {
         if(selectionMode && !selectedItems.isEmpty()) {
-            for(int index : selectedItems) {
+            for(int i = selectedItems.size() -1; i >= 0; i--){
+                int index = selectedItems.get(i);
                 BookCollection.getBooks().remove(index);
             }
             majListBook();
-            getActivity().setTitle("MyCollection");
-            if (BookCollection.getBooks().size() == 0) {
-                ActionMenuItemView menuItem = (ActionMenuItemView) getActivity().findViewById(R.id.action_del);
-                menuItem.setVisibility(View.INVISIBLE);
-                menuItem = (ActionMenuItemView) getActivity().findViewById(R.id.action_edit);
-                menuItem.setVisibility(View.INVISIBLE);
-            }
+            getActivity().setTitle("My Collection");
+            selectedItems.clear();
             selectionMode = false;
-        }
-    }
-
-    public void editAction() {
-        if(lastItemClicked != -1) {
-            Intent intent = new Intent(this.getActivity(), EditBookActivity.class);
-            intent.putExtra(BOOK_TO_EDIT, lastItemClicked);
-            startActivity(intent);
+            MenuItem menuItem = menuCollection.getItem(0);
+            menuItem.setVisible(false);
         }
     }
 }
