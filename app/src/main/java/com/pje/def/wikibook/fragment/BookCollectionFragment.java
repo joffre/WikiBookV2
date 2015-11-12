@@ -130,7 +130,7 @@ public class BookCollectionFragment extends Fragment {
                     BookDetailFragment fragmentBookDetail = new BookDetailFragment();
                     fragmentBookDetail.setArguments(args);
 
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).addToBackStack(null).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).commit();
                 }
             }
         });

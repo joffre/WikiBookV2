@@ -1,12 +1,15 @@
 package com.pje.def.wikibook.fragment;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.EditBookActivity;
@@ -105,6 +109,24 @@ public class BookDetailFragment extends Fragment {
         TextView isbn = (TextView) v.findViewById(R.id.isbn);
         isbn.setText(mParam1.getIsbn());
         this.v = v;
+        v.setFocusableInTouchMode(true);
+        v.requestFocus();
+        v.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
+                            return true;
+                        } else {
+                            return false;
+                    }
+                }
+                return false;
+
+            }
+        });
         return v;
     }
 
@@ -152,7 +174,16 @@ public class BookDetailFragment extends Fragment {
     public void delAction() {
         BookCollection.getBooks().remove(mParam2);
         BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
-        getFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
+    }
+
+    public void onBackPressed() {
+        Intent setIntent = new Intent(Intent.ACTION_MAIN);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(setIntent);
+
+        return;
     }
     public void editAction() {
             Intent intent = new Intent(this.getActivity(), EditBookActivity.class);
