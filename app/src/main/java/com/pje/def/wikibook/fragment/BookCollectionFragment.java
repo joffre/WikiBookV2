@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -106,7 +107,7 @@ public class BookCollectionFragment extends Fragment {
 
                 BookDetailFragment fragmentBookDetail = new BookDetailFragment();
                 fragmentBookDetail.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).addToBackStack(null).commit();
             }
         });
 
