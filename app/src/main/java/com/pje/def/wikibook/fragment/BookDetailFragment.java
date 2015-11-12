@@ -151,7 +151,7 @@ public class BookDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_book_collection, menu);
+        menuInflater.inflate(R.menu.menu_book_detail, menu);
         //this.menu = menu;
     }
     @Override
