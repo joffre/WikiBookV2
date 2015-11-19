@@ -289,7 +289,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         BookDetails newBookDetails = new BookDetails(s_isbn, s_title, s_author, s_year, s_genre, s_description);
         Book newBook = new Book( newBookDetails, drawables[cpt]);
         CharSequence text;
-        if(BookCollection.getBook(s_isbn) == null) {
+        if(s_isbn == null || s_isbn.isEmpty()){
+            text = "Isbn not found.";
+        } else if(BookCollection.getBook(s_isbn) == null) {
             text = "Your book has been created";
             if (BookCollection.addBook(newBook)) {
                 title.getText().clear();

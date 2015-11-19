@@ -1,5 +1,11 @@
 package com.pje.def.wikibook.model;
 
+import com.pje.def.wikibook.MainActivity;
+import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.bdd.BookDetails;
+import com.pje.def.wikibook.bdd.FilterDetails;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +22,16 @@ public class BookFilterCatalog {
     private static int selectedBookFilter;
 
     public static List<BookFilter> getBookFilters(){
+        List<BookFilter> filters = new ArrayList<BookFilter>();
+        try{
+            List<FilterDetails> filtersDetails = MainActivity.getHelper().getFilterDao().queryForAll();
+            for(FilterDetails fDetails : filtersDetails){
+                BookFilter filter = new BookFilter(fDetails);
+                filters.add(filter);
+            }
+        } catch (SQLException e){
 
+        }
         return filters;
     }
 
