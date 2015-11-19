@@ -1,5 +1,7 @@
 package com.pje.def.wikibook.model;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.pje.def.wikibook.BookDetail;
 import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookDetails;
@@ -22,7 +24,9 @@ public class BookCollection {
         try{
             List<BookDetails> booksDetails = MainActivity.getHelper().getBookDao().queryForAll();
             for(BookDetails bookDetails : booksDetails){
-                books.add(new Book(bookDetails, R.drawable.icone));
+                Book book = new Book(bookDetails, R.drawable.icone);
+                books.add(book);
+                System.out.println(book.getIsbn());
             }
         } catch (SQLException e){
 
@@ -47,7 +51,23 @@ public class BookCollection {
         }
     }
 
-    public static void removeBook(String isbn){
+    public static boolean removeBook(String isbn){
 
+        try{
+            System.out.println("Suppression de  : " + isbn);
+            DeleteBuilder<BookDetails, Integer> deleteBuilder = MainActivity.getHelper().getBookDao().deleteBuilder();
+            deleteBuilder.where().eq("book_isbn", isbn);
+            deleteBuilder.delete();
+            return true;
+        } catch(SQLException exception){
+            return false;
+        }
+    }
+
+    public static boolean removeAll(){
+        for(Book book : getBooks()){
+               removeBook(book.getIsbn());
+        }
+        return true;
     }
 }

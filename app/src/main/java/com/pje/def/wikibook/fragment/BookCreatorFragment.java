@@ -168,8 +168,10 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         switch (v.getId()){
             case R.id.btn_create:
                 createBook();
+                break;
             case R.id.scanBtn:
                 scanBook();
+                break;
         }
     }
 
@@ -193,12 +195,12 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     public void scanBook ()
     {
         //instantiate ZXing integration class
-        IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity()) {
+        IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity())/* {
         @Override
         protected void startActivityForResult(Intent intent, int code) {
             this.startActivityForResult(intent, 312); // REQUEST_CODE override
         }
-    };
+    };*/;
 
         //start scanning
         scanIntegrator.initiateScan();
@@ -288,7 +290,6 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         BookDetails newBookDetails = new BookDetails(s_isbn, s_title, s_author, s_year, s_genre, s_description);
         Book newBook = new Book( newBookDetails, drawables[cpt]);
 
-        BookCollection.addBook(newBook);
         CharSequence text = "Your book has been created";
         if(BookCollection.addBook(newBook)){
             title.getText().clear();

@@ -47,7 +47,6 @@ public class BookDetailFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Book mParam1;
-    private int mParam2;
     private View v;
     private OnFragmentInteractionListener mListener;
 
@@ -77,7 +76,6 @@ public class BookDetailFragment extends Fragment {
         bEdit = null;
         if (getArguments() != null) {
             mParam1 = (Book) getArguments().getSerializable(BOOK_PARAM);
-            mParam2 = (int) getArguments().getSerializable(BOOK_PARAM_ID);
         }
         setHasOptionsMenu(true);
     }
@@ -172,7 +170,7 @@ public class BookDetailFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
     public void delAction() {
-        BookCollection.getBooks().remove(mParam2);
+        BookCollection.removeBook(mParam1.getIsbn());
         BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
     }
@@ -187,7 +185,7 @@ public class BookDetailFragment extends Fragment {
     }
     public void editAction() {
             Intent intent = new Intent(this.getActivity(), EditBookActivity.class);
-            intent.putExtra(EditBookActivity.BOOK_TO_EDIT, mParam2);
+            intent.putExtra(EditBookActivity.BOOK_TO_EDIT, mParam1.getIsbn());
             startActivity(intent);
     }
     @Override

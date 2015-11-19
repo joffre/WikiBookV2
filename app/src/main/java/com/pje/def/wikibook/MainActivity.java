@@ -173,29 +173,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        /*System.out.println("the code is catch");
-
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(
-                requestCode, resultCode, intent);
-        // handle scan result
-        if (scanResult != null) {
-            FragmentManager fm = getSupportFragmentManager();
-
-            BookCreatorFragment newFrame = BookCreatorFragment.newInstance("", "");
-
-            fm.beginTransaction().replace(R.id.frame, newFrame).commit();
-            newFrame.onActivityResult(requestCode, resultCode, intent);
-        } else {
-            System.out.println("BLABLABLA");
-        }
-        System.out.println("BLABLABLA");*/
-    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);

@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class BookDetails implements Serializable {
 
-    @DatabaseField(generatedId = false, columnName = "book_isbn")
+    @DatabaseField(id = true, generatedId = false, columnName = "book_isbn")
     protected String bookIsbn;
 
     @DatabaseField(columnName = "book_title")
@@ -29,6 +29,10 @@ public class BookDetails implements Serializable {
 
     public BookDetails(){
 
+    }
+
+    public BookDetails(String bookIsbn){
+        this.bookIsbn = bookIsbn;
     }
 
     public BookDetails(String bookIsbn, String bookTitle, String bookAuthor, String bookYear, String bookGenre, String bookDescription) {
