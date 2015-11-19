@@ -1,6 +1,8 @@
 package com.pje.def.wikibook.model;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.pje.def.wikibook.BookDetail;
 import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
@@ -35,9 +37,17 @@ public class BookCollection {
     }
 
     public static Book getBook(String isbn){
-        List<Book> books = new ArrayList<>();
-        for(Book book : books){
-            if(book.getIsbn().equals(isbn)) return book;
+        try {
+
+            QueryBuilder<BookDetails, Integer> queryBuilder = MainActivity.getHelper().getBookDao().queryBuilder();
+
+            queryBuilder.where().eq("book_isbn", isbn);
+
+            PreparedQuery<BookDetails> preparedQuery = queryBuilder.prepare();
+
+            List<BookDetails> bookList = MainActivity.getHelper().getBookDao().query(preparedQuery);
+            if(!bookList.isEmpty()) return new Book(bookList.get(0), R.id.icon);
+        } catch (SQLException e){
         }
         return null;
     }
