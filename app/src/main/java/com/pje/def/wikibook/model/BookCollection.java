@@ -46,7 +46,7 @@ public class BookCollection {
             PreparedQuery<BookDetails> preparedQuery = queryBuilder.prepare();
 
             List<BookDetails> bookList = MainActivity.getHelper().getBookDao().query(preparedQuery);
-            if(!bookList.isEmpty()) return new Book(bookList.get(0), R.id.icon);
+            if(!bookList.isEmpty()) return new Book(bookList.get(0), R.drawable.icone);
         } catch (SQLException e){
         }
         return null;
