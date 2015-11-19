@@ -28,7 +28,7 @@ public class JSONParser {
         year = "";
     }
 
-    public void parseJSON (Activity activity){
+    public void parseJSON (){
         try {
             JSONArray bookArray = this.result.getJSONArray("items");
             JSONObject bookObject = bookArray.getJSONObject(0);

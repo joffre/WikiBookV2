@@ -9,8 +9,8 @@ import java.io.Serializable;
  */
 public class BookDetails implements Serializable {
 
-    @DatabaseField(generatedId = true, columnName = "book_id")
-    protected int bookId;
+    @DatabaseField(generatedId = false, columnName = "book_isbn")
+    protected String bookIsbn;
 
     @DatabaseField(columnName = "book_title")
     protected String bookTitle;
@@ -27,29 +27,18 @@ public class BookDetails implements Serializable {
     @DatabaseField(columnName = "book_description")
     protected String bookDescription;
 
-    @DatabaseField(columnName = "book_isbn")
-    protected String bookIsbn;
-
     public BookDetails(){
 
     }
 
-    public BookDetails(int bookId, String bookTitle, String bookAuthor, String bookYear, String bookGenre, String bookDescription, String bookIsbn) {
-        this.bookId = bookId;
+    public BookDetails(String bookIsbn, String bookTitle, String bookAuthor, String bookYear, String bookGenre, String bookDescription) {
+
+        this.bookIsbn = bookIsbn;
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookYear = bookYear;
         this.bookGenre = bookGenre;
         this.bookDescription = bookDescription;
-        this.bookIsbn = bookIsbn;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
     }
 
     public String getBookTitle() {

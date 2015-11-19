@@ -2,9 +2,11 @@ package com.pje.def.wikibook.fragment;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,8 @@ import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
+import com.pje.def.wikibook.scan.HttpRequest;
+import com.pje.def.wikibook.scan.JSONParser;
 
 import java.sql.SQLException;
 
@@ -45,6 +49,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     private String mParam1;
     private String mParam2;
 
+    public View vCF;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -96,6 +101,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         Button bC = (Button) v.findViewById(R.id.btn_create);
         bC.setOnClickListener(this);
+
+        ImageButton bS = (ImageButton) v.findViewById(R.id.scanBtn);
+        bS.setOnClickListener(this);
         //init the Image switcher
 
         switcher.setFactory(new ViewSwitcher.ViewFactory() {
@@ -127,6 +135,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             }
         });
         getActivity().setTitle("Book Creator");
+        vCF = v;
        return v;
     }
 
@@ -159,8 +168,12 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         switch (v.getId()){
             case R.id.btn_create:
                 createBook();
+            case R.id.scanBtn:
+                scanBook();
         }
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -177,14 +190,81 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         public void onFragmentInteraction(Uri uri);
     }
 
-    public void scanBook (View view)
+    public void scanBook ()
     {
-        //check for scan button
-        if(view.getId()==R.id.scanBtn) {
-            //instantiate ZXing integration class
-            IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
-            //start scanning
-            scanIntegrator.initiateScan();
+        //instantiate ZXing integration class
+        IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity()) {
+        @Override
+        protected void startActivityForResult(Intent intent, int code) {
+            this.startActivityForResult(intent, 312); // REQUEST_CODE override
+        }
+    };
+
+        //start scanning
+        scanIntegrator.initiateScan();
+
+    }
+
+    public void remplirChamps(JSONParser parser){
+       /* BookCreatorFragment fragmentBookCreator = new BookCreatorFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCreator, "BOOK_CREATOR").commit();
+*/
+        View v = vCF;
+        if(v != null) {
+            EditText title = (EditText) v.findViewById(R.id.EditTitle);
+            title.setText(parser.getTitle());
+            EditText author = (EditText) v.findViewById(R.id.EditAuthor);
+            author.setText(parser.getAuthor());
+            EditText year = (EditText)v.findViewById(R.id.EditYear);
+            year.setText(parser.getYear());
+        /*EditText description = (EditText)findViewById(R.id.EditDescription);
+        description.setText(parser.getDescription());
+
+        EditText genre = (EditText)findViewById(R.id.EditGenre);
+        genre.setText(book.getGender());
+        EditText isbn = (EditText)findViewById(R.id.EditIsbn);
+        isbn.setText(book.getIsbn());*/
+            Log.v("TEST", parser.getAuthor());
+            Log.v("TEST", parser.getTitle());
+            Log.v("TEST", parser.getYear());
+        } else {
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                    "Fragment not enable", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //retrieve result of scanning - instantiate ZXing object
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        //check we have a valid result
+        if (scanningResult != null) {
+            //get content from Intent Result
+            String scanContent = scanningResult.getContents();
+            //get format name of data scanned
+            String scanFormat = scanningResult.getFormatName();
+            // result
+            Log.v("SCAN", "content: " + scanContent + " - format: " + scanFormat);
+
+            if(scanContent!=null && scanFormat!=null && scanFormat.equalsIgnoreCase("EAN_13")){
+                //book search
+                String bookSearchString = "https://www.googleapis.com/books/v1/volumes?"+
+                        "q=isbn:"+scanContent+"&key=AIzaSyBuNGyHC_um1Me1ezISiSmrHW2Tsvk2mqo";
+
+                HttpRequest httpRequest = new HttpRequest();
+                httpRequest.doHttpRequest(bookSearchString, (MainActivity) getActivity(), this);
+            }
+            else{
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        "Not a valid scan!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        else{
+            //invalid scan data or scan canceled
+            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                    "No book scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
@@ -205,23 +285,19 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         String s_genre = (!genre.getText().toString().isEmpty()) ? genre.getText().toString() : getResources().getString(R.string.u_genre);
         String s_isbn = (!isbn.getText().toString().isEmpty()) ? isbn.getText().toString() : getResources().getString(R.string.u_isbn);
 
-        BookDetails newBookDetails = new BookDetails(0, s_title, s_author, s_year, s_genre, s_description, s_isbn);
+        BookDetails newBookDetails = new BookDetails(s_isbn, s_title, s_author, s_year, s_genre, s_description);
         Book newBook = new Book( newBookDetails, drawables[cpt]);
-
 
         BookCollection.addBook(newBook);
         CharSequence text = "Your book has been created";
-        try{
-            ((MainActivity) this.getActivity()).getHelper().getBookDao().create(newBookDetails);
+        if(BookCollection.addBook(newBook)){
             title.getText().clear();
             author.getText().clear();
             description.getText().clear();
             year.getText().clear();
             genre.getText().clear();
             isbn.getText().clear();
-
-
-        } catch(SQLException exception){
+        } else {
             text = "Your book can't be create";
         }
         Context context = getActivity().getApplicationContext();

@@ -216,6 +216,7 @@ public class BookCollectionFragment extends Fragment {
             bookMap.put("img", String.valueOf(book.getId_img())); // use available img
             bookMap.put("author", book.getAuthor());
             bookMap.put("title", book.getTitle());
+            bookMap.put("isbn", book.getIsbn());
             l_books.add(bookMap);
         }
 
@@ -259,7 +260,7 @@ public class BookCollectionFragment extends Fragment {
         if(selectionMode && !selectedItems.isEmpty()) {
             for(int i = selectedItems.size() -1; i >= 0; i--){
                 int index = selectedItems.get(i);
-                BookCollection.getBooks().remove(index);
+                BookCollection.remove(index);
             }
             majListBook();
             getActivity().setTitle("My Collection");

@@ -2,6 +2,8 @@ package com.pje.def.wikibook;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -34,6 +37,7 @@ import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.BookFilter;
 import com.pje.def.wikibook.model.BookFilterCatalog;
 import com.pje.def.wikibook.scan.HttpRequest;
+import com.pje.def.wikibook.scan.JSONParser;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -54,13 +58,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initHelper();
         setContentView(R.layout.activity_main);
         if(!isInitialized) {
-            try {
-                List<BookDetails> booksDetails = getHelper().getBookDao().queryForAll();
-                for(BookDetails bookDetails : booksDetails){
-                    books.addBook(new Book(bookDetails, R.drawable.icone));
-                }
                /* books.addBook(new Book("Oui-Oui à la cantine", "Oui-oui Himself", "Jeunesse", "1994", "Oui-Oui mange à la cantine", "00001", R.drawable.icone));
                 //books.addBook(new Book("Kamasutra","God Himself","Chasse","-870","Recueil","00002",R.drawable.icone));
                 books.addBook(new Book("Harry Potter et à l'école des sorciers", "J.K. Rowling", "Jeunesse", "1992", "Un jeune sorcier découvre la magie", "00003", R.drawable.icone));
@@ -70,14 +70,11 @@ public class MainActivity extends AppCompatActivity {
                 books.addBook(new Book("Asterix", "Uderzo", "Tout public", "1999", "Ils sont fou ces romains", "00007", R.drawable.icone));
                */
 
-                List<FilterDetails> filtersDetails = getHelper().getFilterDao().queryForAll();
+                /*List<FilterDetails> filtersDetails = getHelper().getFilterDao().queryForAll();
                 for(FilterDetails filterDetails : filtersDetails){
                     filters.addBookFilter(new BookFilter(filterDetails));
-                }
+                }*/
                 isInitialized = true;
-            } catch(SQLException exception){
-
-            }
         }
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -117,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.add_book:
                         Toast.makeText(getApplicationContext(), "Add Book Selected", Toast.LENGTH_SHORT).show();
                         BookCreatorFragment fragmentBookCreator = new BookCreatorFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCreator).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCreator, "BOOK_CREATOR").commit();
                         return true;
                     case R.id.filter_list:
                         Toast.makeText(getApplicationContext(),"Filter List Selected",Toast.LENGTH_SHORT).show();
@@ -165,67 +162,38 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
     }
 
-    public DatabaseHandler getHelper(){
+    public void initHelper(){
         if(databaseHandler == null){
             databaseHandler = OpenHelperManager.getHelper(this, DatabaseHandler.class);
         }
+    }
+
+    public static DatabaseHandler getHelper(){
         return databaseHandler;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        /*System.out.println("the code is catch");
 
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(
+                requestCode, resultCode, intent);
+        // handle scan result
+        if (scanResult != null) {
+            FragmentManager fm = getSupportFragmentManager();
 
-    public void scanBook (View view)
-    {
-        //check for scan button
-        if(view.getId()==R.id.scanBtn) {
-            //instantiate ZXing integration class
-            IntentIntegrator scanIntegrator = new IntentIntegrator(this);
-            //start scanning
-            scanIntegrator.initiateScan();
+            BookCreatorFragment newFrame = BookCreatorFragment.newInstance("", "");
 
-
+            fm.beginTransaction().replace(R.id.frame, newFrame).commit();
+            newFrame.onActivityResult(requestCode, resultCode, intent);
+        } else {
+            System.out.println("BLABLABLA");
         }
+        System.out.println("BLABLABLA");*/
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //retrieve result of scanning - instantiate ZXing object
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        //check we have a valid result
-        if (scanningResult != null) {
-            //get content from Intent Result
-            String scanContent = scanningResult.getContents();
-            //get format name of data scanned
-            String scanFormat = scanningResult.getFormatName();
-            // result
-            Log.v("SCAN", "content: " + scanContent + " - format: " + scanFormat);
-
-            if(scanContent!=null && scanFormat!=null && scanFormat.equalsIgnoreCase("EAN_13")){
-            //book search
-            String bookSearchString = "https://www.googleapis.com/books/v1/volumes?"+
-                    "q=isbn:"+scanContent+"&key=AIzaSyBuNGyHC_um1Me1ezISiSmrHW2Tsvk2mqo";
-
-            HttpRequest httpRequest = new HttpRequest();
-            httpRequest.doHttpRequest(bookSearchString, this);
-                /*Log.v("TEST", httpRequest.parser.getAuthor());
-                Log.v("TEST", httpRequest.parser.getTitle());
-                Log.v("TEST", httpRequest.parser.getYear());*/
-
-
-
-            }
-            else{
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Not a valid scan!", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        }
-        else{
-            //invalid scan data or scan canceled
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "No book scan data received!", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
