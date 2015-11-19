@@ -30,7 +30,8 @@ public class EditBookActivity extends Activity {
     private int[] drawables = new int[]{R.drawable.icone, R.drawable.icone2};
     private int cpt = 0;
     public static final String BOOK_TO_EDIT = "book_edit";
-    int lastItemChecked;
+
+    String book_isbn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +51,8 @@ public class EditBookActivity extends Activity {
             }
         });
         Intent intent = getIntent();
-        lastItemChecked = intent.getIntExtra(BOOK_TO_EDIT,-1);
-        Book book = BookCollection.getBooks().get(lastItemChecked);
+        book_isbn = intent.getStringExtra(BOOK_TO_EDIT);
+        Book book = BookCollection.getBook(book_isbn);
 
         switcher.setImageResource(book.id_img);
 
@@ -103,9 +104,8 @@ public class EditBookActivity extends Activity {
 
         Book newBook = new Book(title.getText().toString(), author.getText().toString(), genre.getText().toString(), year.getText().toString(), description.getText().toString(), isbn.getText().toString(), drawables[cpt]);
 
-
-        BookCollection.getBooks().remove(lastItemChecked);
-        BookCollection.getBooks().add(lastItemChecked, newBook);
+        BookCollection.removeBook(book_isbn);
+        BookCollection.addBook(newBook);
 
         title.getText().clear();
         author.getText().clear();
