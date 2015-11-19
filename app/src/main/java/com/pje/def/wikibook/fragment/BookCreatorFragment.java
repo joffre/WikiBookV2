@@ -272,7 +272,6 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
     private void createBook()
     {
-
         EditText title = (EditText)getActivity().findViewById(R.id.EditTitle);
         EditText author = (EditText)getActivity().findViewById(R.id.EditAuthor);
         EditText description = (EditText)getActivity().findViewById(R.id.EditDescription);
@@ -289,17 +288,21 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         BookDetails newBookDetails = new BookDetails(s_isbn, s_title, s_author, s_year, s_genre, s_description);
         Book newBook = new Book( newBookDetails, drawables[cpt]);
-
-        CharSequence text = "Your book has been created";
-        if(BookCollection.addBook(newBook)){
-            title.getText().clear();
-            author.getText().clear();
-            description.getText().clear();
-            year.getText().clear();
-            genre.getText().clear();
-            isbn.getText().clear();
+        CharSequence text;
+        if(BookCollection.getBook(s_isbn) == null) {
+            text = "Your book has been created";
+            if (BookCollection.addBook(newBook)) {
+                title.getText().clear();
+                author.getText().clear();
+                description.getText().clear();
+                year.getText().clear();
+                genre.getText().clear();
+                isbn.getText().clear();
+            } else {
+                text = "Your book can't be create";
+            }
         } else {
-            text = "Your book can't be create";
+            text = "This isbn already exist.";
         }
         Context context = getActivity().getApplicationContext();
 
@@ -307,7 +310,6 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
-
     }
 
     public void setDrawable(String type)

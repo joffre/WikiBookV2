@@ -38,7 +38,6 @@ public class BookCollection {
 
     public static Book getBook(String isbn){
         try {
-
             QueryBuilder<BookDetails, Integer> queryBuilder = MainActivity.getHelper().getBookDao().queryBuilder();
 
             queryBuilder.where().eq("book_isbn", isbn);
