@@ -69,7 +69,7 @@ public class BookCollectionFragment extends Fragment {
     }
 
     int lastItemClicked = -1;
-    List<Integer> selectedItems;
+    Map<Integer, String> selectedItems;
     boolean selectionMode = false;
     Menu menuCollection;
 
@@ -94,7 +94,7 @@ public class BookCollectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        selectedItems = new ArrayList<>();
+        selectedItems = new HashMap<>();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_collection, container, false);
         bookList = (ListView) view.findViewById(R.id.bookList);
@@ -109,9 +109,9 @@ public class BookCollectionFragment extends Fragment {
                 System.out.println(position + "   " + id);
 
                 if (selectionMode) {
-                    if (selectedItems.contains(lastItemClicked)) {
+                    if (selectedItems.containsKey(lastItemClicked)) {
                         //unselection
-                        selectedItems.remove(selectedItems.indexOf(lastItemClicked));
+                        selectedItems.remove(lastItemClicked);
                         //view.setSelected(false);
                         view.setBackgroundColor(Color.TRANSPARENT);
                         if (selectedItems.isEmpty()) {
@@ -122,14 +122,14 @@ public class BookCollectionFragment extends Fragment {
                         }
                     } else {
                         //selection
-                        selectedItems.add(position);
+                        selectedItems.put(position, map.get("isbn"));
                         // view.setSelected(true);
                         view.setBackgroundColor(Color.LTGRAY);
                     }
-                    System.out.println(selectedItems);
+                    System.out.println(selectedItems.keySet());
                 } else {
                     Bundle args = new Bundle();
-                    args.putSerializable(BookDetailFragment.BOOK_PARAM, BookCollection.getBooks().get(lastItemClicked));
+                    args.putSerializable(BookDetailFragment.BOOK_PARAM, BookCollection.getBook(map.get("isbn")));
                     args.putSerializable(BookDetailFragment.BOOK_PARAM_ID, lastItemClicked);
 
                     BookDetailFragment fragmentBookDetail = new BookDetailFragment();
@@ -145,7 +145,8 @@ public class BookCollectionFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 selectionMode = true;
                 //selection
-                selectedItems.add(position);
+                HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
+                selectedItems.put(position, map.get("isbn"));
                 //view.setSelected(true);
                 getActivity().setTitle("Selection");
                 view.setBackgroundColor(Color.LTGRAY);
@@ -258,9 +259,8 @@ public class BookCollectionFragment extends Fragment {
 
     public void deleteAction() {
         if(selectionMode && !selectedItems.isEmpty()) {
-            for(int i = selectedItems.size() -1; i >= 0; i--){
-                int index = selectedItems.get(i);
-                BookCollection.removeBook(null);
+            for(String isbn : selectedItems.values()){
+                BookCollection.removeBook(isbn);
             }
             majListBook();
             getActivity().setTitle("My Collection");

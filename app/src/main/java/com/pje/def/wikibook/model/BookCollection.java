@@ -30,6 +30,14 @@ public class BookCollection {
         return books;
     }
 
+    public static Book getBook(String isbn){
+        List<Book> books = new ArrayList<>();
+        for(Book book : books){
+            if(book.getIsbn().equals(isbn)) return book;
+        }
+        return null;
+    }
+
     public static Boolean addBook(Book book) {
         try{
             MainActivity.getHelper().getBookDao().create(book.getBookDetails());
@@ -39,7 +47,7 @@ public class BookCollection {
         }
     }
 
-    public static void removeBook(Book book){
+    public static void removeBook(String isbn){
 
     }
 }
