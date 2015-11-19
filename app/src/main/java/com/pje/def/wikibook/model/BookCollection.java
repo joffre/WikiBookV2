@@ -39,7 +39,7 @@ public class BookCollection {
         }
     }
 
-    public static void deleteBook(Book book){
+    public static void removeBook(Book book){
 
     }
 }

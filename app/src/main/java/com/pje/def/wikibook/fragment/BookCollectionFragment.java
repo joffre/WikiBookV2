@@ -260,7 +260,7 @@ public class BookCollectionFragment extends Fragment {
         if(selectionMode && !selectedItems.isEmpty()) {
             for(int i = selectedItems.size() -1; i >= 0; i--){
                 int index = selectedItems.get(i);
-                BookCollection.remove(index);
+                BookCollection.removeBook(null);
             }
             majListBook();
             getActivity().setTitle("My Collection");

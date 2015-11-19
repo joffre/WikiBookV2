@@ -34,7 +34,7 @@ public class Book implements Serializable{
     }
 
     public BookDetails getBookDetails(){
-        return new BookDetails(0, this.title, this.author, this.year, this.genre, this.description, this.isbn);
+        return new BookDetails(this.isbn, this.title, this.author, this.year, this.genre, this.description);
     }
 
     public String getGenre() {
