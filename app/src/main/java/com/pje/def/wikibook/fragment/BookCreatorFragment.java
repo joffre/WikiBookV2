@@ -1,4 +1,6 @@
 package com.pje.def.wikibook.fragment;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -172,6 +175,17 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public void scanBook (View view)
+    {
+        //check for scan button
+        if(view.getId()==R.id.scanBtn) {
+            //instantiate ZXing integration class
+            IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
+            //start scanning
+            scanIntegrator.initiateScan();
+        }
     }
 
     private void createBook()

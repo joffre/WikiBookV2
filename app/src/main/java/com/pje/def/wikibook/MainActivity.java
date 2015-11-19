@@ -1,16 +1,26 @@
 package com.pje.def.wikibook;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.bdd.DatabaseHandler;
@@ -23,6 +33,7 @@ import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.BookFilter;
 import com.pje.def.wikibook.model.BookFilterCatalog;
+import com.pje.def.wikibook.scan.HttpRequest;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -159,6 +170,61 @@ public class MainActivity extends AppCompatActivity {
             databaseHandler = OpenHelperManager.getHelper(this, DatabaseHandler.class);
         }
         return databaseHandler;
+    }
+
+
+
+    public void scanBook (View view)
+    {
+        //check for scan button
+        if(view.getId()==R.id.scanBtn) {
+            //instantiate ZXing integration class
+            IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+            //start scanning
+            scanIntegrator.initiateScan();
+
+
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //retrieve result of scanning - instantiate ZXing object
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        //check we have a valid result
+        if (scanningResult != null) {
+            //get content from Intent Result
+            String scanContent = scanningResult.getContents();
+            //get format name of data scanned
+            String scanFormat = scanningResult.getFormatName();
+            // result
+            Log.v("SCAN", "content: " + scanContent + " - format: " + scanFormat);
+
+            if(scanContent!=null && scanFormat!=null && scanFormat.equalsIgnoreCase("EAN_13")){
+            //book search
+            String bookSearchString = "https://www.googleapis.com/books/v1/volumes?"+
+                    "q=isbn:"+scanContent+"&key=AIzaSyBuNGyHC_um1Me1ezISiSmrHW2Tsvk2mqo";
+
+            HttpRequest httpRequest = new HttpRequest();
+            httpRequest.doHttpRequest(bookSearchString, this);
+                /*Log.v("TEST", httpRequest.parser.getAuthor());
+                Log.v("TEST", httpRequest.parser.getTitle());
+                Log.v("TEST", httpRequest.parser.getYear());*/
+
+
+
+            }
+            else{
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Not a valid scan!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+        else{
+            //invalid scan data or scan canceled
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "No book scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     @Override
