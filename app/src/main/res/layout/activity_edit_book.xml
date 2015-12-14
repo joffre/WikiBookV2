@@ -98,13 +98,41 @@
             android:layout_alignParentStart="true"
             android:paddingRight="@dimen/activity_horizontal_margin"/>
 
-        <EditText
-            android:layout_weight="1"
+        <Spinner
+            android:id="@+id/spinnerEdit"
+            android:layout_below="@+id/tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/hintGenre"
-            android:id="@+id/EditGenre"
+            android:layout_weight="1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:scrollbarStyle="outsideOverlay"
+
             />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/genre"
+            android:id="@+id/textEditGenre"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+        <EditText
+            android:id="@+id/addGenderEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/new_gender"/>
+
     </LinearLayout>
 
     <LinearLayout

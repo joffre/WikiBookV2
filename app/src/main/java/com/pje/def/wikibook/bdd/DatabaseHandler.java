@@ -9,6 +9,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.pje.def.wikibook.model.GenderCollection;
+import com.pje.def.wikibook.model.Genre;
 
 import java.sql.SQLException;
 
@@ -22,6 +24,7 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
 
     private Dao<BookDetails, Integer> bookDao;
     private Dao<FilterDetails, Integer> filterDao;
+    private Dao<GenderDetails, Integer> genderDao;
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,6 +37,16 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
             // Create tables. This onCreate() method will be invoked only once of the application life time i.e. the first time when the application starts.
             TableUtils.createTable(connectionSource, BookDetails.class);
             TableUtils.createTable(connectionSource, FilterDetails.class);
+            TableUtils.createTable(connectionSource, GenderDetails.class);
+
+            GenderCollection.addGender(new Genre(0, "Thriller"));
+            GenderCollection.addGender(new Genre(1, "Romantic"));
+            GenderCollection.addGender(new Genre(2, "Comics"));
+            GenderCollection.addGender(new Genre(3, "Novel"));
+            GenderCollection.addGender(new Genre(4, "Biography"));
+
+
+
 
         } catch (SQLException e) {
             Log.e(DatabaseHandler.class.getName(), "Unable to create databases", e);
@@ -50,6 +63,7 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
 
             TableUtils.dropTable(connectionSource, BookDetails.class, true);
             TableUtils.dropTable(connectionSource, FilterDetails.class, true);
+            TableUtils.dropTable(connectionSource, GenderDetails.class, true);
             onCreate(sqliteDatabase, connectionSource);
 
         } catch (SQLException e) {
@@ -60,6 +74,13 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
 
     // Create the getDao methods of all database tables to access those from android code.
     // Insert, delete, read, update everything will be happened through DAOs
+
+    public  Dao<GenderDetails, Integer> getGenderDao() throws  SQLException {
+        if(genderDao == null){
+            genderDao = getDao(GenderDetails.class);
+        }
+        return genderDao;
+    }
 
     public Dao<BookDetails, Integer> getBookDao() throws SQLException {
         if (bookDao == null) {

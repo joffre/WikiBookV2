@@ -9,10 +9,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -20,6 +24,10 @@ import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.fragment.BookDetailFragment;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
+import com.pje.def.wikibook.model.GenderCollection;
+import com.pje.def.wikibook.model.Genre;
+
+import java.util.List;
 
 /**
  * Created by David on 07/10/2015.
@@ -30,6 +38,9 @@ public class EditBookActivity extends Activity {
     private int[] drawables = new int[]{R.drawable.icone, R.drawable.icone2};
     private int cpt = 0;
     public static final String BOOK_TO_EDIT = "book_edit";
+    private TextView hideGenre;
+    private EditText newGenre;
+    private Spinner spinner;
 
     String book_isbn;
 
@@ -37,6 +48,10 @@ public class EditBookActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_book);
+
+        hideGenre = (TextView)findViewById(R.id.textEditGenre);
+        newGenre = (EditText)findViewById(R.id.addGenderEdit);
+        spinner = (Spinner)findViewById(R.id.spinnerEdit);
 
         switcher = (ImageSwitcher)findViewById(R.id.imageSwitcher1);
         b1 = (Button) findViewById(R.id.button);
@@ -86,23 +101,69 @@ public class EditBookActivity extends Activity {
         description.setText(book.getDescription());
         EditText year = (EditText)findViewById(R.id.EditYear);
         year.setText(book.getYear());
-        EditText genre = (EditText)findViewById(R.id.EditGenre);
-        genre.setText(book.getGender());
         EditText isbn = (EditText)findViewById(R.id.EditIsbn);
         isbn.setText(book.getIsbn());
 
+        final List<String> arrayGenre = GenderCollection.getGendersToString();
+        arrayGenre.add("Add a new gender");
+        ArrayAdapter my_adapter = new ArrayAdapter(this, R.layout.spinner_row, arrayGenre);
+        spinner.setAdapter(my_adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position == arrayGenre.size() - 1) {
+                    newGenre.setVisibility(View.VISIBLE);
+                    hideGenre.setVisibility(View.INVISIBLE);
+                } else {
+                    newGenre.setVisibility(View.GONE);
+                    hideGenre.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinner.setSelection(findGenrePosition(book));
+
+
+    }
+
+    public int findGenrePosition(Book book)
+    {
+        int cpt = 0;
+        List<Genre> l_genre = GenderCollection.getGenders();
+
+        for(int i = 0; i<l_genre.size(); i++){
+            if(l_genre.get(i).getGenreTitle().equals(book.genre))
+                return i;
+        }
+        return -1;
     }
 
     public void editBook(View view)
     {
+        String s_genre;
+        if(newGenre.getText().toString().trim().length() != 0)
+        {
+            s_genre = newGenre.getText().toString().trim();
+            List<Genre> l_genre = GenderCollection.getGenders();
+            int newId = l_genre.get(l_genre.size() - 1).getGenreId() + 1;
+            GenderCollection.addGender(new Genre(newId, s_genre));
+        } else {
+            s_genre = (!spinner.getSelectedItem().toString().isEmpty()) ? spinner.getSelectedItem().toString() : getResources().getString(R.string.u_genre);
+        }
+
         EditText title = (EditText)findViewById(R.id.EditTitle);
         EditText author = (EditText)findViewById(R.id.EditAuthor);
         EditText description = (EditText)findViewById(R.id.EditDescription);
         EditText year = (EditText)findViewById(R.id.EditYear);
-        EditText genre = (EditText)findViewById(R.id.EditGenre);
         EditText isbn = (EditText)findViewById(R.id.EditIsbn);
 
-        Book newBook = new Book(title.getText().toString(), author.getText().toString(), genre.getText().toString(), year.getText().toString(), description.getText().toString(), isbn.getText().toString(), drawables[cpt]);
+        Book newBook = new Book(title.getText().toString(), author.getText().toString(), s_genre, year.getText().toString(), description.getText().toString(), isbn.getText().toString(), drawables[cpt]);
 
         BookCollection.removeBook(book_isbn);
         BookCollection.addBook(newBook);
@@ -111,7 +172,7 @@ public class EditBookActivity extends Activity {
         author.getText().clear();
         description.getText().clear();
         year.getText().clear();
-        genre.getText().clear();
+        spinner.setSelection(0);
         isbn.getText().clear();
 
         Context context = getApplicationContext();
