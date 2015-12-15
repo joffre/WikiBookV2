@@ -15,7 +15,7 @@ import org.json.JSONObject;
 public class JSONParser {
 
     public JSONObject result;
-    private String object, title, author, year;
+    private String object, title, author, year, isbn, description, genre;
     public JSONParser (String httpresult)
     {
         try {
@@ -26,6 +26,9 @@ public class JSONParser {
         title = "";
         author = "";
         year = "";
+        isbn = "";
+        description = "";
+        genre = "";
     }
 
     public void parseJSON (){
@@ -42,6 +45,17 @@ public class JSONParser {
             author = authorsArray.get(0).toString(); // AUTHORS
 
             year = volumeObject.getString("publishedDate"); //YEAR
+
+            JSONArray indIDArray = volumeObject.getJSONArray("industryIdentifiers");
+            for(int i = 0; i < indIDArray.length(); i++){
+                JSONObject indObject = indIDArray.getJSONObject(i);
+                if(indObject.getString("type").equals("ISBN_13")){
+                    isbn = indObject.getString("identifier");
+                }
+            }
+
+            description = volumeObject.getString("description");
+
         } catch (JSONException ex){
 
         }
@@ -61,5 +75,17 @@ public class JSONParser {
 
     public String getYear() {
         return year;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public String getGenre(){
+        return genre;
     }
 }

@@ -79,4 +79,41 @@ public class BookCollection {
         }
         return true;
     }
+
+    public static List<Book> getBooks(BookFilter filter){
+        List<Book> filtredBooks = new ArrayList<Book>();
+        try {
+            QueryBuilder<BookDetails, Integer> queryBuilder = MainActivity.getHelper().getBookDao().queryBuilder();
+            String value;
+            if(!(value = filter.getCriterion(BookFilter.FilterType.TITLE)).isEmpty()){
+                queryBuilder.where().like("book_title", "%" + value + "%");
+            }
+            if(!(value = filter.getCriterion(BookFilter.FilterType.AUTHOR)).isEmpty()){
+                queryBuilder.where().like("book_author", "%" + value + "%");
+            }
+            if(!(value = filter.getCriterion(BookFilter.FilterType.DESCRIPTION)).isEmpty()){
+                queryBuilder.where().like("book_description", "%" + value + "%");
+            }
+            if(!(value = filter.getCriterion(BookFilter.FilterType.YEAR)).isEmpty()){
+                queryBuilder.where().like("book_year", "%" + value + "%");
+            }
+            if(!(value = filter.getCriterion(BookFilter.FilterType.ISBN)).isEmpty()){
+                queryBuilder.where().like("book_isbn", "%" + value + "%");
+            }
+            if(!(value = filter.getCriterion(BookFilter.FilterType.GENDER)).isEmpty()){
+                queryBuilder.where().like("book_genre", "%"+value+"%");
+            }
+            PreparedQuery<BookDetails> preparedQuery = queryBuilder.prepare();
+
+            List<BookDetails> bookList = MainActivity.getHelper().getBookDao().query(preparedQuery);
+
+            for(BookDetails bDetails : bookList){
+                filtredBooks.add(new Book(bDetails, R.drawable.icone));
+            }
+
+        } catch (SQLException e){
+
+        }
+        return filtredBooks;
+    }
 }

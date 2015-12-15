@@ -8,10 +8,8 @@ import java.io.Serializable;
  * Created by Geoffrey on 22/10/2015.
  */
 public class FilterDetails implements Serializable {
-    @DatabaseField(generatedId=true, columnName= "filter_id")
-    protected int filterId;
 
-    @DatabaseField(columnName= "filter_name")
+    @DatabaseField(id = true, columnName= "filter_name")
     protected String filterName;
 
     @DatabaseField(columnName= "filter_title")
@@ -32,8 +30,7 @@ public class FilterDetails implements Serializable {
     @DatabaseField(columnName= "filter_isbn")
     protected String filterIsbn;
 
-    public FilterDetails(int filterId, String filterName, String filterTitle, String filterAuthor, String filterYear, String filterGenre, String filterDescription, String filterIsbn) {
-        this.filterId = filterId;
+    public FilterDetails(String filterName, String filterTitle, String filterAuthor, String filterYear, String filterGenre, String filterDescription, String filterIsbn) {
         this.filterName = filterName;
         this.filterTitle = filterTitle;
         this.filterAuthor = filterAuthor;
@@ -44,14 +41,6 @@ public class FilterDetails implements Serializable {
     }
 
     public FilterDetails() {
-    }
-
-    public int getFilterId() {
-        return filterId;
-    }
-
-    public void setFilterId(int filterId) {
-        this.filterId = filterId;
     }
 
     public String getFilterName() {

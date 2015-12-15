@@ -19,7 +19,7 @@ import android.widget.SimpleAdapter;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.FiltredCollectionActivity;
 import com.pje.def.wikibook.model.BookFilter;
-import com.pje.def.wikibook.model.BookFilterCatalog;
+import com.pje.def.wikibook.model.BookFilterCollection;
 import com.pje.def.wikibook.activity.EditBookFilterActivity;
 
 import java.util.ArrayList;
@@ -70,6 +70,7 @@ public class BookFilterCatalogFragment extends Fragment {
     }
 
     private int lastItemClicked = -1;
+    private String itemClickedName;
     private ListView bookFilterList;
 
     @Override
@@ -102,7 +103,7 @@ public class BookFilterCatalogFragment extends Fragment {
 
     public void majFilterBookList(){
         List<Map<String, String>> l_filter = new ArrayList<Map<String, String>>();
-        for (BookFilter bookFilter : BookFilterCatalog.getBookFilters()) {
+        for (BookFilter bookFilter : BookFilterCollection.getBookFilters()) {
             Map<String, String> bookMap = new HashMap<String, String>();
             bookMap.put("name", bookFilter.getName());
             bookMap.put("author", bookFilter.getCriterion(BookFilter.FilterType.AUTHOR));
@@ -121,8 +122,9 @@ public class BookFilterCatalogFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                BookFilterCatalog.setSelectedBookFilter(position);
                 lastItemClicked = position;
+                HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
+                itemClickedName = map.get("name");
                 checkAndModifyMenuItemsVisibility();
                 System.out.println(position + "   " + id);
             }
@@ -135,16 +137,16 @@ public class BookFilterCatalogFragment extends Fragment {
         ActionMenuItemView menuItemEdit = (ActionMenuItemView) getActivity().findViewById(R.id.filter_action_edit);
         ActionMenuItemView menuItemSee = (ActionMenuItemView) getActivity().findViewById(R.id.filter_action_see);
         if(menuItemDel != null && menuItemEdit != null && menuItemSee != null){
-            if(BookFilterCatalog.isEmpty() ||  lastItemClicked == -1){
+            if(BookFilterCollection.getBookFilters().isEmpty() ||  lastItemClicked == -1){
                 menuItemDel.setVisibility(View.INVISIBLE);
                 menuItemEdit.setVisibility(View.INVISIBLE);
                 menuItemSee.setVisibility(View.INVISIBLE);
-                getActivity().setTitle("MyFilters");
+                getActivity().setTitle("My Filters");
             } else {
                 menuItemDel.setVisibility(View.VISIBLE);
                 menuItemEdit.setVisibility(View.VISIBLE);
                 menuItemSee.setVisibility(View.VISIBLE);
-                getActivity().setTitle(BookFilterCatalog.getSelectedBookFilter().getName());
+                getActivity().setTitle(itemClickedName);
             }
         } else {
             System.out.println("NULLLLLLLLLLLL");
@@ -217,7 +219,7 @@ public class BookFilterCatalogFragment extends Fragment {
 
     private void actionDelete(){
         if(lastItemClicked != -1) {
-            BookFilterCatalog.removeBookFilter(lastItemClicked);
+            BookFilterCollection.removeBookFilter(itemClickedName);
             majFilterBookList();
         }
         lastItemClicked = -1;
@@ -226,16 +228,16 @@ public class BookFilterCatalogFragment extends Fragment {
 
     private void actionDisplay(){
         if(lastItemClicked != -1) {
-            BookFilterCatalog.setSelectedBookFilter(lastItemClicked);
             Intent intent = new Intent(getActivity(), FiltredCollectionActivity.class);
+            intent.putExtra(FiltredCollectionActivity.FILTER_NAME, itemClickedName);
             startActivity(intent);
         }
     }
 
     private void actionEdit(){
         if(lastItemClicked != -1) {
-            BookFilterCatalog.setSelectedBookFilter(lastItemClicked);
             Intent intent = new Intent(getActivity(), EditBookFilterActivity.class);
+            intent.putExtra(EditBookFilterActivity.FILTER_TO_EDIT, itemClickedName);
             startActivity(intent);
         }
     }

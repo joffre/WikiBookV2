@@ -1,17 +1,20 @@
 package com.pje.def.wikibook.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.BookFilter;
-import com.pje.def.wikibook.model.BookFilterCatalog;
+import com.pje.def.wikibook.model.BookFilterCollection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,27 +23,33 @@ import java.util.Map;
 
 public class FiltredCollectionActivity extends AppCompatActivity {
 
-    BookFilter currentFilter;
+    BookFilter filter;
+
+    public static final String FILTER_NAME = "filter_name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        String filter_name = intent.getStringExtra(FILTER_NAME);
+
         setContentView(R.layout.activity_filtred_book_collection);
         ListView filtredBookList = (ListView) findViewById(R.id.filtredBookList);
+
         List<Map<String, String>> l_filtred_books = new ArrayList<Map<String, String>>();
-        currentFilter = BookFilterCatalog.getSelectedBookFilter();
-        for (Book book : BookCollection.getBooks()) {
-            if(currentFilter.isSelected(book)) {
-                Map<String, String> bookMap = new HashMap<String, String>();
-                bookMap.put("img", String.valueOf(book.getId_img())); // use available img
-                bookMap.put("author", book.getAuthor());
-                bookMap.put("title", book.getTitle());
-                bookMap.put("gender", book.getGender());
-                bookMap.put("isbn", book.getIsbn());
-                bookMap.put("year", book.getYear());
-                bookMap.put("description", book.getDescription());
-                l_filtred_books.add(bookMap);
-            }
+
+        filter = BookFilterCollection.getBookFilter(filter_name);
+        for (Book book : BookCollection.getBooks(filter)) {
+            Map<String, String> bookMap = new HashMap<String, String>();
+            bookMap.put("img", String.valueOf(book.getId_img())); // use available img
+            bookMap.put("author", book.getAuthor());
+            bookMap.put("title", book.getTitle());
+            bookMap.put("gender", book.getGender());
+            bookMap.put("isbn", book.getIsbn());
+            bookMap.put("year", book.getYear());
+            bookMap.put("description", book.getDescription());
+            l_filtred_books.add(bookMap);
         }
 
         SimpleAdapter listAdapter = new SimpleAdapter(this.getBaseContext(), l_filtred_books, R.layout.book_detail,
@@ -61,12 +70,18 @@ public class FiltredCollectionActivity extends AppCompatActivity {
                 System.out.println(position + "   " + id);
             }
         });*/
+        Context context = getApplicationContext();
+
+        int duration = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(context,l_filtred_books.size() + " books.", duration);
+        toast.show();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        this.setTitle(currentFilter.getName());
+        this.setTitle(filter.getName());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.pje.def.wikibook.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,25 +11,27 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.bdd.FilterDetails;
 import com.pje.def.wikibook.model.BookFilter;
-import com.pje.def.wikibook.model.BookFilterCatalog;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.pje.def.wikibook.model.BookFilterCollection;
 
 public class EditBookFilterActivity extends AppCompatActivity {
 
-    private String nameFilter;
+    private String filterName;
+
+    public static final String FILTER_TO_EDIT = "filter_to_edit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_book_filter);
-        BookFilter bookFilter = BookFilterCatalog.getSelectedBookFilter();
+
+        Intent intent = getIntent();
+        filterName = intent.getStringExtra(FILTER_TO_EDIT);
+        BookFilter bookFilter = BookFilterCollection.getBookFilter(filterName);
 
         EditText name = (EditText)findViewById(R.id.CriterionName);
         name.setText(bookFilter.getName());
-        nameFilter = bookFilter.getName();
 
         EditText title = (EditText)findViewById(R.id.CriterionTitle);
         title.setText(bookFilter.getCriterion(BookFilter.FilterType.TITLE));
@@ -72,7 +75,6 @@ public class EditBookFilterActivity extends AppCompatActivity {
     }
 
     public void editBookFilter(View view){
-        Map<BookFilter.FilterType, String> criteria = new HashMap<BookFilter.FilterType, String>();
         EditText name = (EditText)findViewById(R.id.CriterionName);
         EditText title = (EditText)findViewById(R.id.CriterionTitle);
         EditText author = (EditText)findViewById(R.id.CriterionAuthor);
@@ -81,16 +83,9 @@ public class EditBookFilterActivity extends AppCompatActivity {
         EditText genre = (EditText)findViewById(R.id.CriterionGenre);
         EditText isbn = (EditText)findViewById(R.id.CriterionIsbn);
 
-        criteria.put(BookFilter.FilterType.TITLE, title.getText().toString().trim());
-        criteria.put(BookFilter.FilterType.AUTHOR, author.getText().toString().trim());
-        criteria.put(BookFilter.FilterType.DESCRIPTION, description.getText().toString().trim());
-        criteria.put(BookFilter.FilterType.YEAR, year.getText().toString().trim());
-        criteria.put(BookFilter.FilterType.GENDER, genre.getText().toString().trim());
-        criteria.put(BookFilter.FilterType.ISBN, isbn.getText().toString().trim());
+        FilterDetails newBookFilterDetails = new FilterDetails(name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), genre.getText().toString(), description.getText().toString(), isbn.getText().toString());
 
-        BookFilter newBookFilter = new BookFilter(name.getText().toString().trim(),criteria);
-
-        if(!name.getText().toString().toLowerCase().trim().equals(nameFilter.toLowerCase().trim()) && BookFilterCatalog.containsNamedFilter(name.getText().toString().trim())){
+        if(!name.getText().toString().toLowerCase().trim().equals(filterName.toLowerCase().trim()) && BookFilterCollection.getBookFilter(name.getText().toString().trim()) != null){
             Context context = getApplicationContext();
             CharSequence text = "Your book filter already exist. Change the filter name !";
             int duration = Toast.LENGTH_LONG;
@@ -98,20 +93,19 @@ public class EditBookFilterActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         } else {
-            BookFilter toChange = BookFilterCatalog.getSelectedBookFilter();
-            int index = BookFilterCatalog.removeBookFilter(toChange);
-            BookFilterCatalog.addBookFilter(index, newBookFilter);
-
-            name.getText().clear();
-            title.getText().clear();
-            author.getText().clear();
-            description.getText().clear();
-            year.getText().clear();
-            genre.getText().clear();
-            isbn.getText().clear();
-
+            CharSequence text = "Your book filter can't be modified.";
+            if(BookFilterCollection.removeBookFilter(filterName) && BookFilterCollection.addBookFilter(newBookFilterDetails)) {
+                text = "Your book filter has been modified.";
+                name.getText().clear();
+                title.getText().clear();
+                author.getText().clear();
+                description.getText().clear();
+                year.getText().clear();
+                genre.getText().clear();
+                isbn.getText().clear();
+            }
             Context context = getApplicationContext();
-            CharSequence text = "Your book filter has been modified.";
+
             int duration = Toast.LENGTH_LONG;
 
             Toast toast = Toast.makeText(context, text, duration);

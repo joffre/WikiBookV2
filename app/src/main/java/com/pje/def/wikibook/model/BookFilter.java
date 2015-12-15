@@ -4,6 +4,7 @@ import com.pje.def.wikibook.bdd.FilterDetails;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Filter;
 
 /**
  * Created by Geoffrey on 06/10/2015.
@@ -16,6 +17,7 @@ public class BookFilter{
     private Map<FilterType, String> criteria;
 
     private String name;
+    private FilterDetails fDetails;
     public BookFilter(String name, Map<FilterType, String> criteria){
         this.name = name;
         this.criteria = criteria;
@@ -30,6 +32,11 @@ public class BookFilter{
         this.criteria.put(FilterType.GENDER, filterDetails.getFilterGenre());
         this.criteria.put(FilterType.DESCRIPTION, filterDetails.getFilterDescription());
         this.criteria.put(FilterType.ISBN, filterDetails.getFilterIsbn());
+        this.fDetails = filterDetails;
+    }
+
+    public FilterDetails getFilterDetails(){
+        return fDetails;
     }
 
     public String getName(){
@@ -71,4 +78,6 @@ public class BookFilter{
     private static String format(String characters){
         return characters.trim().toLowerCase();
     }
+
+
 }

@@ -12,14 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.FilterDetails;
-import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.BookFilter;
-import com.pje.def.wikibook.model.BookFilterCatalog;
+import com.pje.def.wikibook.model.BookFilterCollection;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +28,7 @@ import java.util.Map;
  * Use the {@link BookFilterCreatorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BookFilterCreatorFragment extends Fragment implements View.OnClickListener{
+public class BookFilterCreatorFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -103,7 +100,7 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_create_filter:
                 createBookFilter();
         }
@@ -124,15 +121,15 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
         public void onFragmentInteraction(Uri uri);
     }
 
-    private void createBookFilter(){
+    private void createBookFilter() {
         Map<BookFilter.FilterType, String> criteria = new HashMap<BookFilter.FilterType, String>();
-        EditText name = (EditText)getActivity().findViewById(R.id.CriterionName);
-        EditText title = (EditText)getActivity().findViewById(R.id.CriterionTitle);
-        EditText author = (EditText)getActivity().findViewById(R.id.CriterionAuthor);
-        EditText description = (EditText)getActivity().findViewById(R.id.CriterionDescription);
-        EditText year = (EditText)getActivity().findViewById(R.id.CriterionYear);
-        EditText genre = (EditText)getActivity().findViewById(R.id.CriterionGenre);
-        EditText isbn = (EditText)getActivity().findViewById(R.id.CriterionIsbn);
+        EditText name = (EditText) getActivity().findViewById(R.id.CriterionName);
+        EditText title = (EditText) getActivity().findViewById(R.id.CriterionTitle);
+        EditText author = (EditText) getActivity().findViewById(R.id.CriterionAuthor);
+        EditText description = (EditText) getActivity().findViewById(R.id.CriterionDescription);
+        EditText year = (EditText) getActivity().findViewById(R.id.CriterionYear);
+        EditText genre = (EditText) getActivity().findViewById(R.id.CriterionGenre);
+        EditText isbn = (EditText) getActivity().findViewById(R.id.CriterionIsbn);
 
         criteria.put(BookFilter.FilterType.TITLE, title.getText().toString());
         criteria.put(BookFilter.FilterType.AUTHOR, author.getText().toString());
@@ -141,19 +138,15 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
         criteria.put(BookFilter.FilterType.GENDER, genre.getText().toString());
         criteria.put(BookFilter.FilterType.ISBN, isbn.getText().toString());
 
-        if(BookFilterCatalog.containsNamedFilter(name.getText().toString().trim())){
-            Context context = getActivity().getApplicationContext();
-            CharSequence text = "Your book filter already exist. Change the filter name !";
-            int duration = Toast.LENGTH_LONG;
+        FilterDetails newBookFilterDetails = new FilterDetails(name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), genre.getText().toString(), description.getText().toString(), isbn.getText().toString());
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        } else {
-            FilterDetails newBookFilterDetails = new FilterDetails(0, name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), genre.getText().toString(), description.getText().toString(), isbn.getText().toString());
-            BookFilterCatalog.addBookFilter(new BookFilter(newBookFilterDetails));
-            CharSequence text = "Your book filter has been created";
-            try{
-                ((MainActivity) this.getActivity()).getHelper().getFilterDao().create(newBookFilterDetails);
+        CharSequence text;
+        String s_name = name.getText().toString().trim();
+        if (s_name == null || s_name.isEmpty()) {
+            text = "Name not found.";
+        } else if (BookFilterCollection.getBookFilter(s_name) == null) {
+            if (BookFilterCollection.addBookFilter(newBookFilterDetails)) {
+                text = "Your book filter has been created";
                 name.getText().clear();
                 title.getText().clear();
                 author.getText().clear();
@@ -161,15 +154,17 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
                 year.getText().clear();
                 genre.getText().clear();
                 isbn.getText().clear();
-            } catch(SQLException exception){
+            } else {
                 text = "Your book filter can't be created";
             }
-            Context context = getActivity().getApplicationContext();
-
-            int duration = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+        } else {
+            text = "Your book filter already exist. Change the filter name !";
         }
+        Context context = getActivity().getApplicationContext();
+
+        int duration = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
