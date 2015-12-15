@@ -236,8 +236,8 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             EditText description = (EditText)v.findViewById(R.id.EditDescription);
             description.setText(parser.getDescription());
 
-            EditText genre = (EditText)v.findViewById(R.id.EditGenre);
-            genre.setText(parser.getGenre());
+            /*EditText genre = (EditText)v.findViewById(R.id.EditGenre);
+            genre.setText(parser.getGenre());*/
             EditText isbn = (EditText)v.findViewById(R.id.EditIsbn);
             isbn.setText(parser.getIsbn());
             Log.v("TEST", parser.getAuthor());
