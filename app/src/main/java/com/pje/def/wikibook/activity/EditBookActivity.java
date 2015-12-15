@@ -41,6 +41,7 @@ public class EditBookActivity extends Activity {
     private TextView hideGenre;
     private EditText newGenre;
     private Spinner spinner;
+    private List<String> arrayGenre;
 
     String book_isbn;
 
@@ -104,7 +105,7 @@ public class EditBookActivity extends Activity {
         EditText isbn = (EditText)findViewById(R.id.EditIsbn);
         isbn.setText(book.getIsbn());
 
-        final List<String> arrayGenre = GenderCollection.getGendersToString();
+        arrayGenre = GenderCollection.getGendersToString();
         arrayGenre.add("Add a new gender");
         ArrayAdapter my_adapter = new ArrayAdapter(this, R.layout.spinner_row, arrayGenre);
         spinner.setAdapter(my_adapter);
@@ -174,6 +175,10 @@ public class EditBookActivity extends Activity {
         year.getText().clear();
         spinner.setSelection(0);
         isbn.getText().clear();
+
+        arrayGenre = GenderCollection.getGendersToString();
+        ArrayAdapter my_adapter = new ArrayAdapter(this, R.layout.spinner_row, arrayGenre);
+        spinner.setAdapter(my_adapter);
 
         Context context = getApplicationContext();
         CharSequence text = "Your book has been edited";

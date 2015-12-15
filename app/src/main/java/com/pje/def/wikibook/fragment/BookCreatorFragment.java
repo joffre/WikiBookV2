@@ -3,7 +3,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -26,10 +29,14 @@ import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
+import com.pje.def.wikibook.model.GenderCollection;
+import com.pje.def.wikibook.model.Genre;
 import com.pje.def.wikibook.scan.HttpRequest;
 import com.pje.def.wikibook.scan.JSONParser;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -75,6 +82,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         // Required empty public constructor
     }
 
+    private EditText addGender;
+    private Spinner genreSpinner;
+    private TextView hideTitle;
     private ImageSwitcher switcher;
     private Button b1, b2;
     private int[] drawables = new int[]{R.drawable.icone, R.drawable.icone2};
@@ -88,8 +98,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        if(getActivity()!=null)
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
     }
 
     @Override
@@ -100,6 +109,12 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         switcher = (ImageSwitcher)v.findViewById(R.id.imageSwitcher1);
         b1 = (Button) v.findViewById(R.id.button);
         b2 = (Button) v.findViewById(R.id.button2);
+
+        hideTitle = (TextView) v.findViewById(R.id.hideTitle);
+        hideTitle.setVisibility(View.GONE);
+
+        addGender = (EditText)v.findViewById(R.id.addGender);
+        addGender.setVisibility(View.GONE);
 
         Button bC = (Button) v.findViewById(R.id.btn_create);
         bC.setOnClickListener(this);
@@ -137,11 +152,40 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             }
         });
         getActivity().setTitle("Book Creator");
+
+        genreSpinner = (Spinner)v.findViewById(R.id.spinner1);
+
+        final List<String> arrayGenre = GenderCollection.getGendersToString();
+        arrayGenre.add("Add a new gender");
+        ArrayAdapter my_adapter = new ArrayAdapter(getActivity(), R.layout.spinner_row, arrayGenre);
+        genreSpinner.setAdapter(my_adapter);
+        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(position == arrayGenre.size() - 1){
+                    addGender.setVisibility(View.VISIBLE);
+                    hideTitle.setVisibility(View.INVISIBLE);
+                } else {
+                    addGender.setVisibility(View.GONE);
+                    hideTitle.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         vCF = v;
-       return v;
+
+        if(GenderCollection.getGenders().size() > 0) {
+            Log.d("TEST", GenderCollection.getGenders().get(1).getGenreTitle().toString());
+            System.out.println(GenderCollection.getGenders().get(1).getGenreTitle().toString());
+        }
+        return v;
     }
-
-
 
     /*// TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -176,6 +220,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             case R.id.scanBtn:
                 scanBook();
                 break;
+
         }
     }
 
@@ -196,12 +241,6 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         public void onFragmentInteraction(Uri uri);
     }
 
-    public void onPause(){
-        if(getActivity()!=null)
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-        super.onPause();
-    }
-
     public void addGenre(){
         //New intent : GenreCretor
     }
@@ -209,7 +248,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     public void scanBook ()
     {
         //instantiate ZXing integration class
-        FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(this)/* {
+        IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity())/* {
         @Override
         protected void startActivityForResult(Intent intent, int code) {
             this.startActivityForResult(intent, 312); // REQUEST_CODE override
@@ -233,13 +272,13 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             author.setText(parser.getAuthor());
             EditText year = (EditText)v.findViewById(R.id.EditYear);
             year.setText(parser.getYear());
-            EditText description = (EditText)v.findViewById(R.id.EditDescription);
-            description.setText(parser.getDescription());
+        /*EditText description = (EditText)findViewById(R.id.EditDescription);
+        description.setText(parser.getDescription());
 
-            /*EditText genre = (EditText)v.findViewById(R.id.EditGenre);
-            genre.setText(parser.getGenre());*/
-            EditText isbn = (EditText)v.findViewById(R.id.EditIsbn);
-            isbn.setText(parser.getIsbn());
+        EditText genre = (EditText)findViewById(R.id.EditGenre);
+        genre.setText(book.getGender());
+        EditText isbn = (EditText)findViewById(R.id.EditIsbn);
+        isbn.setText(book.getIsbn());*/
             Log.v("TEST", parser.getAuthor());
             Log.v("TEST", parser.getTitle());
             Log.v("TEST", parser.getYear());
@@ -290,16 +329,26 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         EditText author = (EditText)getActivity().findViewById(R.id.EditAuthor);
         EditText description = (EditText)getActivity().findViewById(R.id.EditDescription);
         EditText year = (EditText)getActivity().findViewById(R.id.EditYear);
-        EditText genre = (EditText)getActivity().findViewById(R.id.EditGenre);
+        //EditText genre = (EditText)getActivity().findViewById(R.id.EditGenre);
         EditText isbn = (EditText)getActivity().findViewById(R.id.EditIsbn);
+        Spinner spinner = (Spinner)getActivity().findViewById(R.id.spinner1);
 
+        String s_genre;
         String s_title = (!title.getText().toString().isEmpty()) ? title.getText().toString() : getResources().getString(R.string.u_title);
         String s_author = (!author.getText().toString().isEmpty()) ? author.getText().toString() : getResources().getString(R.string.u_author);
         String s_description = (!description.getText().toString().isEmpty()) ? description.getText().toString() : getResources().getString(R.string.u_description);
         String s_year= (!year.getText().toString().isEmpty()) ? year.getText().toString() : getResources().getString(R.string.u_year);
-        String s_genre = (!genre.getText().toString().isEmpty()) ? genre.getText().toString() : getResources().getString(R.string.u_genre);
         String s_isbn = (!isbn.getText().toString().isEmpty()) ? isbn.getText().toString() : getResources().getString(R.string.u_isbn);
 
+        if(addGender.getText().toString().trim().length() != 0)
+        {
+            s_genre = addGender.getText().toString().trim();
+            List<Genre> l_genre = GenderCollection.getGenders();
+            int newId = l_genre.get(l_genre.size() - 1).getGenreId() + 1;
+            GenderCollection.addGender(new Genre(newId, s_genre));
+        } else {
+            s_genre = (!spinner.getSelectedItem().toString().isEmpty()) ? spinner.getSelectedItem().toString() : getResources().getString(R.string.u_genre);
+        }
         BookDetails newBookDetails = new BookDetails(s_isbn, s_title, s_author, s_year, s_genre, s_description);
         Book newBook = new Book( newBookDetails, drawables[cpt]);
         CharSequence text;
@@ -312,8 +361,8 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
                 author.getText().clear();
                 description.getText().clear();
                 year.getText().clear();
-                genre.getText().clear();
                 isbn.getText().clear();
+                spinner.setSelection(0);
             } else {
                 text = "Your book can't be create";
             }
