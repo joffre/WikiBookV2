@@ -25,6 +25,6 @@ dependencies {
     compile 'com.android.support:design:22.2.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'de.hdodenhof:circleimageview:1.3.0'
-    compile files('libs/ormlite-android-4.48.jar')
-    compile files('libs/ormlite-core-4.48.jar')
+    compile files('jar/ormlite-android-4.48.jar')
+    compile files('jar/ormlite-core-4.48.jar')
 }

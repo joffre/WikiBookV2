@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pje.def.wikibook.BlankFragment;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.EditBookActivity;
 import com.pje.def.wikibook.model.Book;
@@ -47,6 +49,7 @@ public class BookDetailFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private Book mParam1;
+    private int mParam2;
     private View v;
     private OnFragmentInteractionListener mListener;
 
@@ -114,8 +117,13 @@ public class BookDetailFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if(getResources().getConfiguration().orientation == 2) {
+                            BlankFragment blankFragment = new BlankFragment();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameDetail, blankFragment).commit();
+                        } else {
                             BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
+                        }
                             return true;
                         } else {
                             return false;
@@ -148,7 +156,8 @@ public class BookDetailFragment extends Fragment {
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        //
+        menu.clear();
         menuInflater.inflate(R.menu.menu_book_detail, menu);
         //this.menu = menu;
     }
@@ -162,7 +171,7 @@ public class BookDetailFragment extends Fragment {
         if(id == R.id.action_edit) {
             editAction();
             return true;
-        } else if(id == R.id.action_del) {
+        } else if(id == R.id.action_del_detail) {
             delAction();
             return true;
         }
@@ -170,9 +179,17 @@ public class BookDetailFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
     public void delAction() {
-        BookCollection.removeBook(mParam1.getIsbn());
-        BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
+        BookCollection.getBooks().remove(mParam1.getIsbn());
+        if(getResources().getConfiguration().orientation == 2) {
+            BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
+            BlankFragment blankFragment = new BlankFragment();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameDetail, blankFragment).commit();
+        } else {
+            BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
+        }
+
     }
 
     public void onBackPressed() {
@@ -184,6 +201,7 @@ public class BookDetailFragment extends Fragment {
         return;
     }
     public void editAction() {
+        /*mParam2 erreur inconnue après avoir cliqueren landscape sur un bouton et retour en portrait ??? */
             Intent intent = new Intent(this.getActivity(), EditBookActivity.class);
             intent.putExtra(EditBookActivity.BOOK_TO_EDIT, mParam1.getIsbn());
             startActivity(intent);

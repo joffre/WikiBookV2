@@ -55,9 +55,13 @@ public class MainActivity extends AppCompatActivity {
                 isInitialized = true;
         }
         // Initializing Toolbar and setting it as the actionbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        if(getResources().getConfiguration().orientation == 2) {
+            toolbar = (Toolbar) findViewById(R.id.toolbarLand);
+            setSupportActionBar(toolbar);
+        } else {
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+        }
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
@@ -85,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Collection Selected",Toast.LENGTH_SHORT).show();
                         BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
+                        if(getResources().getConfiguration().orientation == 2) {
+
+                            BlankFragment blankFragment = new BlankFragment();
+
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameDetail, blankFragment).commit();
+                        }
                         return true;
 
                     // For rest of the options we just show a toast on click
@@ -114,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
 
         BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
+        if(getResources().getConfiguration().orientation == 2) {
+            BlankFragment blankFragment = new BlankFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameDetail, blankFragment).commit();
+        }
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
@@ -139,7 +153,19 @@ public class MainActivity extends AppCompatActivity {
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
+  /*  @Override
+    public void onSaveInstanceState(Bundle state)
+    {
+        if (getResources().getConfiguration().orientation == 2 && getSupportFragmentManager().findFragmentById(R.id.frameDetail) != null)
+        {
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+            ft.remove(getSupportFragmentManager().findFragmentById(R.id.frameDetail));
+            ft.commit();
+        }
 
+        super.onSaveInstanceState(state);
+    }*/
     public void initHelper(){
         if(databaseHandler == null){
             databaseHandler = OpenHelperManager.getHelper(this, DatabaseHandler.class);

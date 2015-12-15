@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -134,8 +135,12 @@ public class BookCollectionFragment extends Fragment {
 
                     BookDetailFragment fragmentBookDetail = new BookDetailFragment();
                     fragmentBookDetail.setArguments(args);
+                    if(getResources().getConfiguration().orientation == 2) {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameDetail, fragmentBookDetail).commit();
+                    } else {
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).commit();
 
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookDetail).commit();
+                    }
                 }
             }
         });
@@ -232,6 +237,7 @@ public class BookCollectionFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        menu.clear();
         menuInflater.inflate(R.menu.menu_book_collection, menu);
         MenuItem menuItem = menu.getItem(0);
         menuItem.setVisible(false);
