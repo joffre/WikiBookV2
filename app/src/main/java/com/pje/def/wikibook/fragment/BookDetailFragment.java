@@ -184,7 +184,7 @@ public class BookDetailFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
     public void delAction() {
-        BookCollection.getBooks().remove(mParam1.getIsbn());
+        BookCollection.removeBook(mParam1.getIsbn());
         if(getResources().getConfiguration().orientation == 2) {
             BookCollectionFragment fragmentBookCollection = new BookCollectionFragment();
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCollection).commit();
