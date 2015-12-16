@@ -96,10 +96,11 @@ public class EditBookActivity extends Activity {
 
     public int findGenrePosition(Book book)
     {
-        List<Genre> l_genre = GenderCollection.getGenders();
+        int cpt = 0;
+        List<String> l_genre = GenderCollection.getGendersToString();
 
         for(int i = 0; i<l_genre.size(); i++){
-            if(l_genre.get(i).getGenreTitle().equals(book.genre))
+            if(l_genre.get(i).equals(book.genre))
                 return i;
         }
         return -1;

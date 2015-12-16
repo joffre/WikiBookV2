@@ -39,11 +39,12 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, FilterDetails.class);
             TableUtils.createTable(connectionSource, GenderDetails.class);
 
-            GenderCollection.addGender(new Genre(0, "Thriller"));
-            GenderCollection.addGender(new Genre(1, "Romantic"));
-            GenderCollection.addGender(new Genre(2, "Comics"));
-            GenderCollection.addGender(new Genre(3, "Novel"));
-            GenderCollection.addGender(new Genre(4, "Biography"));
+            GenderCollection.addGender(new Genre(0, "No Gender"));
+            GenderCollection.addGender(new Genre(1, "Thriller"));
+            GenderCollection.addGender(new Genre(2, "Romantic"));
+            GenderCollection.addGender(new Genre(3, "Comics"));
+            GenderCollection.addGender(new Genre(4, "Novel"));
+            GenderCollection.addGender(new Genre(5, "Biography"));
 
 
 

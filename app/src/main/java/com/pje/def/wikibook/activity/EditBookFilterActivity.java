@@ -7,17 +7,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.FilterDetails;
+import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookFilter;
 import com.pje.def.wikibook.model.BookFilterCollection;
+import com.pje.def.wikibook.model.GenderCollection;
+import com.pje.def.wikibook.model.Genre;
+
+import java.util.Collections;
+import java.util.List;
 
 public class EditBookFilterActivity extends AppCompatActivity {
 
     private String filterName;
+    private Spinner genreSpinner;
 
     public static final String FILTER_TO_EDIT = "filter_to_edit";
 
@@ -45,11 +54,16 @@ public class EditBookFilterActivity extends AppCompatActivity {
         EditText year = (EditText)findViewById(R.id.CriterionYear);
         year.setText(bookFilter.getCriterion(BookFilter.FilterType.YEAR));
 
-        EditText genre = (EditText)findViewById(R.id.CriterionGenre);
-        genre.setText(bookFilter.getCriterion(BookFilter.FilterType.GENDER));
-
         EditText isbn = (EditText)findViewById(R.id.CriterionIsbn);
         isbn.setText(bookFilter.getCriterion(BookFilter.FilterType.ISBN));
+
+        genreSpinner = (Spinner)findViewById(R.id.spinnerFilter);
+
+        final List<String> arrayGenre = GenderCollection.getGendersToString();
+        ArrayAdapter my_adapter = new ArrayAdapter(this, R.layout.spinner_row, arrayGenre);
+        genreSpinner.setAdapter(my_adapter);
+
+        genreSpinner.setSelection(findGenrePosition(bookFilter));
     }
 
     @Override
@@ -80,10 +94,16 @@ public class EditBookFilterActivity extends AppCompatActivity {
         EditText author = (EditText)findViewById(R.id.CriterionAuthor);
         EditText description = (EditText)findViewById(R.id.CriterionDescription);
         EditText year = (EditText)findViewById(R.id.CriterionYear);
-        EditText genre = (EditText)findViewById(R.id.CriterionGenre);
         EditText isbn = (EditText)findViewById(R.id.CriterionIsbn);
 
-        FilterDetails newBookFilterDetails = new FilterDetails(name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), genre.getText().toString(), description.getText().toString(), isbn.getText().toString());
+        String gender;
+        if(genreSpinner.getSelectedItem().toString().equals("No Gender")){
+            gender = "";
+        } else {
+            gender = genreSpinner.getSelectedItem().toString();
+        }
+
+        FilterDetails newBookFilterDetails = new FilterDetails(name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), gender, description.getText().toString(), isbn.getText().toString());
 
         if(!name.getText().toString().toLowerCase().trim().equals(filterName.toLowerCase().trim()) && BookFilterCollection.getBookFilter(name.getText().toString().trim()) != null){
             Context context = getApplicationContext();
@@ -101,7 +121,7 @@ public class EditBookFilterActivity extends AppCompatActivity {
                 author.getText().clear();
                 description.getText().clear();
                 year.getText().clear();
-                genre.getText().clear();
+                genreSpinner.setSelection(0);
                 isbn.getText().clear();
             }
             Context context = getApplicationContext();
@@ -112,5 +132,18 @@ public class EditBookFilterActivity extends AppCompatActivity {
             toast.show();
             finish();
         }
+    }
+
+    public int findGenrePosition(BookFilter bookFilter)
+    {
+        int ret = -1;
+        List<String> l_genre = GenderCollection.getGendersToString();
+
+        for(int i = 0; i<l_genre.size(); i++){
+            if(l_genre.get(i).equals(bookFilter.getCriterion(BookFilter.FilterType.GENDER))) {
+                ret = i;
+            }
+        }
+        return ret;
     }
 }

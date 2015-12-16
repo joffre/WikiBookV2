@@ -8,16 +8,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.FilterDetails;
 import com.pje.def.wikibook.model.BookFilter;
 import com.pje.def.wikibook.model.BookFilterCollection;
+import com.pje.def.wikibook.model.GenderCollection;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +42,8 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Spinner genreSpinner;
 
     private OnFragmentInteractionListener mListener;
 
@@ -78,6 +85,14 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
         View view = inflater.inflate(R.layout.fragment_book_filter_creator, container, false);
         Button bC = (Button) view.findViewById(R.id.btn_create_filter);
         bC.setOnClickListener(this);
+
+        genreSpinner = (Spinner)view.findViewById(R.id.spinner2);
+
+        final List<String> arrayGenre = GenderCollection.getGendersToString();
+        ArrayAdapter my_adapter = new ArrayAdapter(getActivity(), R.layout.spinner_row, arrayGenre);
+        genreSpinner.setAdapter(my_adapter);
+
+
         return view;
     }
 
@@ -128,17 +143,23 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
         EditText author = (EditText) getActivity().findViewById(R.id.CriterionAuthor);
         EditText description = (EditText) getActivity().findViewById(R.id.CriterionDescription);
         EditText year = (EditText) getActivity().findViewById(R.id.CriterionYear);
-        EditText genre = (EditText) getActivity().findViewById(R.id.CriterionGenre);
         EditText isbn = (EditText) getActivity().findViewById(R.id.CriterionIsbn);
+
+        String gender;
+        if(genreSpinner.getSelectedItem().toString().equals("No Gender Filter")){
+            gender = "";
+        } else {
+            gender = genreSpinner.getSelectedItem().toString();
+        }
 
         criteria.put(BookFilter.FilterType.TITLE, title.getText().toString());
         criteria.put(BookFilter.FilterType.AUTHOR, author.getText().toString());
         criteria.put(BookFilter.FilterType.DESCRIPTION, description.getText().toString());
         criteria.put(BookFilter.FilterType.YEAR, year.getText().toString());
-        criteria.put(BookFilter.FilterType.GENDER, genre.getText().toString());
+        criteria.put(BookFilter.FilterType.GENDER, gender);
         criteria.put(BookFilter.FilterType.ISBN, isbn.getText().toString());
 
-        FilterDetails newBookFilterDetails = new FilterDetails(name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), genre.getText().toString(), description.getText().toString(), isbn.getText().toString());
+        FilterDetails newBookFilterDetails = new FilterDetails(name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), gender, description.getText().toString(), isbn.getText().toString());
 
         CharSequence text;
         String s_name = name.getText().toString().trim();
@@ -152,8 +173,8 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
                 author.getText().clear();
                 description.getText().clear();
                 year.getText().clear();
-                genre.getText().clear();
                 isbn.getText().clear();
+                genreSpinner.setSelection(0);
             } else {
                 text = "Your book filter can't be created";
             }
