@@ -248,7 +248,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     public void scanBook ()
     {
         //instantiate ZXing integration class
-        IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity())/* {
+        IntentIntegrator scanIntegrator = new FragmentIntentIntegrator(this)/* {
         @Override
         protected void startActivityForResult(Intent intent, int code) {
             this.startActivityForResult(intent, 312); // REQUEST_CODE override
@@ -272,13 +272,13 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             author.setText(parser.getAuthor());
             EditText year = (EditText)v.findViewById(R.id.EditYear);
             year.setText(parser.getYear());
-        /*EditText description = (EditText)findViewById(R.id.EditDescription);
-        description.setText(parser.getDescription());
+            EditText description = (EditText)v.findViewById(R.id.EditDescription);
+            description.setText(parser.getDescription());
 
-        EditText genre = (EditText)findViewById(R.id.EditGenre);
-        genre.setText(book.getGender());
-        EditText isbn = (EditText)findViewById(R.id.EditIsbn);
-        isbn.setText(book.getIsbn());*/
+            /*EditText genre = (EditText)findViewById(R.id.EditGenre);
+            genre.setText(book.getGender());*/
+            EditText isbn = (EditText)v.findViewById(R.id.EditIsbn);
+            isbn.setText(parser.getIsbn());
             Log.v("TEST", parser.getAuthor());
             Log.v("TEST", parser.getTitle());
             Log.v("TEST", parser.getYear());
