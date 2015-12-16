@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
  */
 public class ImageCollection {
 
+    public void initBase(){
+
+    }
 
     public static Bitmap getImage(String isbn){
         return null;
@@ -17,6 +20,10 @@ public class ImageCollection {
     }
 
     public static void addImage(String isbn, Bitmap image){
+
+    }
+
+    public static void addImage(String isbn, byte[] image){
 
     }
 }
