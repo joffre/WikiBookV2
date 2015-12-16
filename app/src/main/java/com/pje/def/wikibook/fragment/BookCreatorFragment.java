@@ -3,6 +3,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.GenderCollection;
 import com.pje.def.wikibook.model.Genre;
+import com.pje.def.wikibook.model.ImageCollection;
 import com.pje.def.wikibook.scan.HttpRequest;
 import com.pje.def.wikibook.scan.JSONParser;
 import com.pje.def.wikibook.utility.DownloadImageTask;
@@ -97,7 +99,8 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
+        if(getActivity()!=null)
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     @Override
@@ -155,24 +158,6 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         return v;
     }
 
-    /*// TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }*/
-
-    /*@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }*/
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -207,6 +192,12 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public void onPause(){
+        if(getActivity()!=null)
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        super.onPause();
     }
 
     public void addGenre(){
@@ -246,7 +237,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             Log.v("TEST", parser.getTitle());
             Log.v("TEST", parser.getYear());
             dlITask = new DownloadImageTask((ImageView) v.findViewById(R.id.EditImage));
-            //dlITask.execute(parser.getThumbnail());
+            dlITask.execute(parser.getThumbnail());
         } else {
             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                     "Fragment not enable", Toast.LENGTH_SHORT);
@@ -328,6 +319,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
                 year.getText().clear();
                 isbn.getText().clear();
                 spinner.setSelection(0);
+                ImageCollection.addImage(s_isbn, dlITask.getImage());
             } else {
                 text = "Your book can't be create";
             }

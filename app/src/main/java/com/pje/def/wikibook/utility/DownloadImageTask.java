@@ -13,9 +13,11 @@ import java.io.InputStream;
  */
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     ImageView bmImage;
+    Bitmap image;
 
     public DownloadImageTask(ImageView bmImage) {
         this.bmImage = bmImage;
+        this.image = null;
     }
 
     protected Bitmap doInBackground(String... urls) {
@@ -32,6 +34,11 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     protected void onPostExecute(Bitmap result) {
+        image = result;
         bmImage.setImageBitmap(result);
+    }
+
+    public Bitmap getImage(){
+        return this.image;
     }
 }

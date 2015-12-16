@@ -19,6 +19,7 @@ import com.pje.def.wikibook.fragment.BookFilterCreatorFragment;
 import com.pje.def.wikibook.fragment.BookFilterCatalogFragment;
 import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.BookFilterCollection;
+import com.pje.def.wikibook.model.ImageCollection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 for(FilterDetails filterDetails : filtersDetails){
                     filters.addBookFilter(new BookFilter(filterDetails));
                 }*/
+            ImageCollection.init();
                 isInitialized = true;
         }
         // Initializing Toolbar and setting it as the actionbar

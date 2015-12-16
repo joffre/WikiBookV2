@@ -57,6 +57,8 @@ public class JSONParser {
 
             description = volumeObject.getString("description");
 
+            thumbnail = volumeObject.getJSONObject("imageLinks").getString("thumbnail");
+
         } catch (JSONException ex){
 
         }
@@ -88,5 +90,9 @@ public class JSONParser {
 
     public String getGenre(){
         return genre;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
     }
 }
