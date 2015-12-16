@@ -33,6 +33,7 @@ import com.pje.def.wikibook.model.GenderCollection;
 import com.pje.def.wikibook.model.Genre;
 import com.pje.def.wikibook.scan.HttpRequest;
 import com.pje.def.wikibook.scan.JSONParser;
+import com.pje.def.wikibook.utility.DownloadImageTask;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -84,10 +85,8 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
     private EditText addGender;
     private Spinner genreSpinner;
+    private DownloadImageTask dlITask;
     private TextView hideTitle;
-    private ImageSwitcher switcher;
-    private Button b1, b2;
-    private int[] drawables = new int[]{R.drawable.icone, R.drawable.icone2};
     public int cpt = 0;
 
     @Override
@@ -105,10 +104,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_book_creator, container, false);
-        // Inflate the layout for this fragment
-        switcher = (ImageSwitcher)v.findViewById(R.id.imageSwitcher1);
-        b1 = (Button) v.findViewById(R.id.button);
-        b2 = (Button) v.findViewById(R.id.button2);
+
+        ImageView image = (ImageView) v.findViewById(R.id.EditImage);
+        image.setImageResource(R.drawable.icone);
 
         hideTitle = (TextView) v.findViewById(R.id.hideTitle);
         hideTitle.setVisibility(View.GONE);
@@ -121,36 +119,6 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         ImageButton bS = (ImageButton) v.findViewById(R.id.scanBtn);
         bS.setOnClickListener(this);
-        //init the Image switcher
-
-        switcher.setFactory(new ViewSwitcher.ViewFactory() {
-            public View makeView() {
-                ImageView myView = new ImageView(getActivity().getApplicationContext());
-                return myView;
-            }
-        });
-
-        switcher.setImageResource(drawables[cpt]);
-
-        Animation in = AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left);
-        Animation out = AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right);
-        switcher.setInAnimation(in);
-        switcher.setOutAnimation(out);
-
-        //button next/previous image
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDrawable("previous");
-            }
-        });
-
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDrawable("next");
-            }
-        });
         getActivity().setTitle("Book Creator");
 
         genreSpinner = (Spinner)v.findViewById(R.id.spinner1);
@@ -248,12 +216,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     public void scanBook ()
     {
         //instantiate ZXing integration class
-        IntentIntegrator scanIntegrator = new FragmentIntentIntegrator(this)/* {
-        @Override
-        protected void startActivityForResult(Intent intent, int code) {
-            this.startActivityForResult(intent, 312); // REQUEST_CODE override
-        }
-    };*/;
+        IntentIntegrator scanIntegrator = new FragmentIntentIntegrator(this);
 
         //start scanning
         scanIntegrator.initiateScan();
@@ -282,6 +245,8 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             Log.v("TEST", parser.getAuthor());
             Log.v("TEST", parser.getTitle());
             Log.v("TEST", parser.getYear());
+            dlITask = new DownloadImageTask((ImageView) v.findViewById(R.id.EditImage));
+            //dlITask.execute(parser.getThumbnail());
         } else {
             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                     "Fragment not enable", Toast.LENGTH_SHORT);
@@ -350,7 +315,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             s_genre = (!spinner.getSelectedItem().toString().isEmpty()) ? spinner.getSelectedItem().toString() : getResources().getString(R.string.u_genre);
         }
         BookDetails newBookDetails = new BookDetails(s_isbn, s_title, s_author, s_year, s_genre, s_description);
-        Book newBook = new Book( newBookDetails, drawables[cpt]);
+        Book newBook = new Book( newBookDetails);
         CharSequence text;
         if(s_isbn == null || s_isbn.isEmpty()){
             text = "Isbn not found.";
@@ -375,26 +340,5 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
-    }
-
-    public void setDrawable(String type)
-    {
-        if(type.equals("previous")) {
-            if (this.cpt - 1 >= 0) {
-                this.cpt--;
-
-            } else {
-                this.cpt = drawables.length -1;
-            }
-
-        } else {
-            if (this.cpt + 1 < drawables.length) {
-                this.cpt++;
-
-            } else {
-                this.cpt = 0;
-            }
-        }
-        switcher.setImageResource(drawables[this.cpt]);
     }
 }

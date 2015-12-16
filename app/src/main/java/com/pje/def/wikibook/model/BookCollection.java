@@ -26,7 +26,7 @@ public class BookCollection {
         try{
             List<BookDetails> booksDetails = MainActivity.getHelper().getBookDao().queryForAll();
             for(BookDetails bookDetails : booksDetails){
-                Book book = new Book(bookDetails, R.drawable.icone);
+                Book book = new Book(bookDetails);
                 books.add(book);
                 System.out.println(book.getIsbn());
             }
@@ -45,7 +45,7 @@ public class BookCollection {
             PreparedQuery<BookDetails> preparedQuery = queryBuilder.prepare();
 
             List<BookDetails> bookList = MainActivity.getHelper().getBookDao().query(preparedQuery);
-            if(!bookList.isEmpty()) return new Book(bookList.get(0), R.drawable.icone);
+            if(!bookList.isEmpty()) return new Book(bookList.get(0));
         } catch (SQLException e){
         }
         return null;
@@ -108,7 +108,7 @@ public class BookCollection {
             List<BookDetails> bookList = MainActivity.getHelper().getBookDao().query(preparedQuery);
 
             for(BookDetails bDetails : bookList){
-                filtredBooks.add(new Book(bDetails, R.drawable.icone));
+                filtredBooks.add(new Book(bDetails));
             }
 
         } catch (SQLException e){

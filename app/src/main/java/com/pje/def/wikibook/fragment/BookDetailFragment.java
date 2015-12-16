@@ -26,6 +26,7 @@ import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.EditBookActivity;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
+import com.pje.def.wikibook.model.ImageCollection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +91,11 @@ public class BookDetailFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_book_detail, container, false);
 
         ImageView cover = (ImageView) v.findViewById(R.id.img_cover);
-        cover.setImageResource(mParam1.getId_img());
+        if(ImageCollection.exist(mParam1.getIsbn())){
+            cover.setImageBitmap(ImageCollection.getImage(mParam1.getIsbn()));
+        } else {
+            cover.setImageResource(R.drawable.icone);
+        }
 
         TextView title = (TextView) v.findViewById(R.id.title);
         title.setText(mParam1.getTitle());
@@ -219,8 +224,14 @@ public class BookDetailFragment extends Fragment {
         majInfoBook();
     }
     public void majInfoBook() {
+
         ImageView cover = (ImageView) v.findViewById(R.id.img_cover);
-        cover.setImageResource(bEdit.getId_img());
+
+        if(ImageCollection.exist(bEdit.getIsbn())){
+            cover.setImageBitmap(ImageCollection.getImage(bEdit.getIsbn()));
+        } else {
+            cover.setImageResource(R.drawable.icone);
+        }
 
         TextView title = (TextView) v.findViewById(R.id.title);
         title.setText(bEdit.getTitle());

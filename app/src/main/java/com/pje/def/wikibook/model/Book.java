@@ -11,26 +11,23 @@ import java.io.Serializable;
 public class Book implements Serializable{
 
     public String title, author, genre, year, description, isbn;
-    public int id_img;
 
-    public Book(String title, String author, String genre, String year, String description, String isbn, int id_img) {
+    public Book(String title, String author, String genre, String year, String description, String isbn) {
         this.title = title.trim();
         this.author = author.trim();
         this.genre = genre.trim();
         this.year = year.trim();
         this.description = description.trim();
         this.isbn = isbn.trim();
-        this.id_img = id_img;
     }
 
-    public Book(BookDetails details, int id_img) {
+    public Book(BookDetails details) {
         this.title = details.getBookTitle();
         this.author = details.getBookAuthor();
         this.genre = details.getBookGenre();
         this.year = details.getBookYear();
         this.description = details.getBookDescription();
         this.isbn = details.getBookIsbn();
-        this.id_img = id_img;
     }
 
     public BookDetails getBookDetails(){
@@ -39,14 +36,6 @@ public class Book implements Serializable{
 
     public String getGenre() {
         return genre;
-    }
-
-    public int getId_img() {
-        return id_img;
-    }
-
-    public void setId_img(int id_img) {
-        this.id_img = id_img;
     }
 
     public void setAuthor(String author) {

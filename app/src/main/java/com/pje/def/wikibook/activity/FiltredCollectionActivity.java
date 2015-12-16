@@ -42,7 +42,6 @@ public class FiltredCollectionActivity extends AppCompatActivity {
         filter = BookFilterCollection.getBookFilter(filter_name);
         for (Book book : BookCollection.getBooks(filter)) {
             Map<String, String> bookMap = new HashMap<String, String>();
-            bookMap.put("img", String.valueOf(book.getId_img())); // use available img
             bookMap.put("author", book.getAuthor());
             bookMap.put("title", book.getTitle());
             bookMap.put("gender", book.getGender());

@@ -196,38 +196,12 @@
         android:orientation="horizontal"
 
         android:paddingTop="10dp">
-
-
-        <Button
-            android:layout_width="wrap_content"
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="previous"
-            android:id="@+id/button"
-            android:layout_below="@+id/textView"
-            android:layout_centerHorizontal="true" />
-
-        <ImageSwitcher
-            android:adjustViewBounds="true"
-            android:id="@+id/imageSwitcher1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:minHeight="80dp"
-            android:minWidth="80dp"
-            android:maxHeight="80dp"
-            android:maxWidth="80dp"></ImageSwitcher>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="next"
-            android:id="@+id/button2"
-            android:layout_alignParentBottom="true"
-            android:layout_alignLeft="@+id/button"
-            android:layout_alignStart="@+id/button"
-            android:paddingLeft="10dp"/>
-
+            android:id="@+id/EditImage"
+            />
     </LinearLayout>
 
 

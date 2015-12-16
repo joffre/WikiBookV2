@@ -219,7 +219,6 @@ public class BookCollectionFragment extends Fragment {
 
         for (Book book : BookCollection.getBooks()) {
             Map<String, String> bookMap = new HashMap<String, String>();
-            bookMap.put("img", String.valueOf(book.getId_img())); // use available img
             bookMap.put("author", book.getAuthor());
             bookMap.put("title", book.getTitle());
             bookMap.put("isbn", book.getIsbn());

@@ -33,9 +33,6 @@ import java.util.List;
  * Created by David on 07/10/2015.
  */
 public class EditBookActivity extends Activity {
-    private ImageSwitcher switcher;
-    private Button b1, b2;
-    private int[] drawables = new int[]{R.drawable.icone, R.drawable.icone2};
     private int cpt = 0;
     public static final String BOOK_TO_EDIT = "book_edit";
     private TextView hideGenre;
@@ -54,45 +51,9 @@ public class EditBookActivity extends Activity {
         newGenre = (EditText)findViewById(R.id.addGenderEdit);
         spinner = (Spinner)findViewById(R.id.spinnerEdit);
 
-        switcher = (ImageSwitcher)findViewById(R.id.imageSwitcher1);
-        b1 = (Button) findViewById(R.id.button);
-        b2 = (Button) findViewById(R.id.button2);
-
-        //init the Image switcher
-
-        switcher.setFactory(new ViewSwitcher.ViewFactory() {
-            public View makeView() {
-                ImageView myView = new ImageView(getApplicationContext());
-                return myView;
-            }
-        });
         Intent intent = getIntent();
         book_isbn = intent.getStringExtra(BOOK_TO_EDIT);
         Book book = BookCollection.getBook(book_isbn);
-
-        switcher.setImageResource(book.id_img);
-
-        Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
-        Animation out = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
-        switcher.setInAnimation(in);
-        switcher.setOutAnimation(out);
-
-        //button next/previous image
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDrawable("previous");
-            }
-        });
-
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDrawable("next");
-            }
-        });
-
-
 
         EditText title = (EditText)findViewById(R.id.EditTitle);
         title.setText(book.getTitle());
@@ -135,7 +96,6 @@ public class EditBookActivity extends Activity {
 
     public int findGenrePosition(Book book)
     {
-        int cpt = 0;
         List<Genre> l_genre = GenderCollection.getGenders();
 
         for(int i = 0; i<l_genre.size(); i++){
@@ -164,7 +124,7 @@ public class EditBookActivity extends Activity {
         EditText year = (EditText)findViewById(R.id.EditYear);
         EditText isbn = (EditText)findViewById(R.id.EditIsbn);
 
-        Book newBook = new Book(title.getText().toString(), author.getText().toString(), s_genre, year.getText().toString(), description.getText().toString(), isbn.getText().toString(), drawables[cpt]);
+        Book newBook = new Book(title.getText().toString(), author.getText().toString(), s_genre, year.getText().toString(), description.getText().toString(), isbn.getText().toString());
 
         BookCollection.removeBook(book_isbn);
         BookCollection.addBook(newBook);
@@ -203,26 +163,5 @@ public class EditBookActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void setDrawable(String type)
-    {
-        if(type.equals("previous")) {
-            if (this.cpt - 1 >= 0) {
-                this.cpt--;
-
-            } else {
-                this.cpt = drawables.length -1;
-            }
-
-        } else {
-            if (this.cpt + 1 < drawables.length) {
-                this.cpt++;
-
-            } else {
-                this.cpt = 0;
-            }
-        }
-        switcher.setImageResource(drawables[this.cpt]);
     }
 }

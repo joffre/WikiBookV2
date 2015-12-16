@@ -16,6 +16,7 @@ public class JSONParser {
 
     public JSONObject result;
     private String object, title, author, year, isbn, description, genre;
+    private String thumbnail;
     public JSONParser (String httpresult)
     {
         try {
