@@ -1,4 +1,4 @@
-package com.pje.def.wikibook;
+package com.pje.def.wikibook.activity;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.pje.def.wikibook.R;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

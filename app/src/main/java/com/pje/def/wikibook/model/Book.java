@@ -1,6 +1,5 @@
 package com.pje.def.wikibook.model;
 
-import com.pje.def.wikibook.BookDetail;
 import com.pje.def.wikibook.bdd.BookDetails;
 
 import java.io.Serializable;

@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pje.def.wikibook.BlankFragment;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.EditBookActivity;
 import com.pje.def.wikibook.model.Book;

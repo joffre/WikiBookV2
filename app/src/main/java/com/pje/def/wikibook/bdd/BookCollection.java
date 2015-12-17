@@ -3,10 +3,7 @@ package com.pje.def.wikibook.bdd;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.pje.def.wikibook.BookDetail;
 import com.pje.def.wikibook.MainActivity;
-import com.pje.def.wikibook.R;
-import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookFilter;
 

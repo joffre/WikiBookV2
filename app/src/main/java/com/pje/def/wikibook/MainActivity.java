@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.pje.def.wikibook.bdd.DatabaseHandler;
+import com.pje.def.wikibook.fragment.BlankFragment;
 import com.pje.def.wikibook.fragment.BookCollectionFragment;
 import com.pje.def.wikibook.fragment.BookCreatorFragment;
 import com.pje.def.wikibook.fragment.BookFilterCreatorFragment;

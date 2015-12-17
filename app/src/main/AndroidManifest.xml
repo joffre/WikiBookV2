@@ -36,10 +36,10 @@
             android:label="@string/title_activity_filtred_book_collection" >
         </activity>
         <activity
-            android:name=".BookDetail"
+            android:name=".fragment.BookDetailContext"
             android:label="@string/title_activity_book_detail" >
         </activity>
-        <activity android:name=".FormationCameraActivity"
+        <activity android:name=".activity.FormationCameraActivity"
             android:label="@string/app_name" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

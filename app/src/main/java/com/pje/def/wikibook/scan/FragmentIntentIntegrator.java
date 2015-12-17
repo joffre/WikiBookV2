@@ -1,4 +1,4 @@
-package com.pje.def.wikibook.fragment;
+package com.pje.def.wikibook.scan;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
