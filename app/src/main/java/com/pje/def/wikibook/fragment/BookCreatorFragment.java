@@ -1,8 +1,13 @@
 package com.pje.def.wikibook.fragment;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.pje.def.wikibook.FormationCameraActivity;
 import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookDetails;
@@ -39,6 +45,7 @@ import com.pje.def.wikibook.utility.DownloadImageTask;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -52,6 +59,8 @@ import java.util.List;
  */
 public class BookCreatorFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
+
+    private static final int STATIC_INTEGER_VALUE =10;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -89,7 +98,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     private Spinner genreSpinner;
     private DownloadImageTask dlITask;
     private TextView hideTitle;
+    private Button b3;
     public int cpt = 0;
+    private View v;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +118,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.fragment_book_creator, container, false);
+        v = inflater.inflate(R.layout.fragment_book_creator, container, false);
+        // Inflate the layout for this fragment
+        b3 = (Button) v.findViewById(R.id.btn_picture);
 
         ImageView image = (ImageView) v.findViewById(R.id.EditImage);
         image.setImageResource(R.drawable.icone);
@@ -124,6 +137,14 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         ImageButton bS = (ImageButton) v.findViewById(R.id.scanBtn);
         bS.setOnClickListener(this);
         getActivity().setTitle("Book Creator");
+
+        b3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FormationCameraActivity.class);
+                startActivityForResult(intent, STATIC_INTEGER_VALUE);
+            }
+        });
 
         genreSpinner = (Spinner)v.findViewById(R.id.spinner1);
 
@@ -197,7 +218,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
     public void onPause(){
         if(getActivity()!=null)
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onPause();
     }
 
@@ -249,39 +270,53 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if(getActivity()!=null)
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //retrieve result of scanning - instantiate ZXing object
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        //check we have a valid result
-        if (scanningResult != null) {
-            //get content from Intent Result
-            String scanContent = scanningResult.getContents();
-            //get format name of data scanned
-            String scanFormat = scanningResult.getFormatName();
-            // result
-            Log.v("SCAN", "content: " + scanContent + " - format: " + scanFormat);
-
-            if(scanContent!=null && scanFormat!=null && scanFormat.equalsIgnoreCase("EAN_13")){
-                //book search
-                String bookSearchString = "https://www.googleapis.com/books/v1/volumes?"+
-                        "q=isbn:"+scanContent+"&key=AIzaSyBuNGyHC_um1Me1ezISiSmrHW2Tsvk2mqo";
-
-                HttpRequest httpRequest = new HttpRequest();
-                httpRequest.doHttpRequest(bookSearchString, (MainActivity) getActivity(), this);
+        switch(requestCode) {
+            case (STATIC_INTEGER_VALUE) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    byte[] picture = intent.getByteArrayExtra(FormationCameraActivity.DATA_PICTURE_TAKEN);
+                    ImageView image = (ImageView) v.findViewById(R.id.EditImage);
+                    image.setImageBitmap(BitmapFactory.decodeByteArray(picture,0,picture.length));
+                }
+                break;
             }
-            else{
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                        "Not a valid scan!", Toast.LENGTH_SHORT);
-                toast.show();
+            default : {
+                //check we have a valid result
+                if (scanningResult != null) {
+                    //get content from Intent Result
+                    String scanContent = scanningResult.getContents();
+                    //get format name of data scanned
+                    String scanFormat = scanningResult.getFormatName();
+                    // result
+                    Log.v("SCAN", "content: " + scanContent + " - format: " + scanFormat);
+
+                    if(scanContent!=null && scanFormat!=null && scanFormat.equalsIgnoreCase("EAN_13")){
+                        //book search
+                        String bookSearchString = "https://www.googleapis.com/books/v1/volumes?"+
+                                "q=isbn:"+scanContent+"&key=AIzaSyBuNGyHC_um1Me1ezISiSmrHW2Tsvk2mqo";
+
+                        HttpRequest httpRequest = new HttpRequest();
+                        httpRequest.doHttpRequest(bookSearchString, (MainActivity) getActivity(), this);
+                    }
+                    else{
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                                "Not a valid scan!", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+                else{
+                    //invalid scan data or scan canceled
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                            "No book scan data received!", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         }
-        else{
-            //invalid scan data or scan canceled
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-                    "No book scan data received!", Toast.LENGTH_SHORT);
-            toast.show();
-        }
+
     }
-
     private void createBook()
     {
         EditText title = (EditText)getActivity().findViewById(R.id.EditTitle);
@@ -322,6 +357,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
                 year.getText().clear();
                 isbn.getText().clear();
                 spinner.setSelection(0);
+//                ImageCollection.addImage(s_isbn, dlITask.getImage());
                 if(dlITask != null){
                     ImageCollection.addImage(s_isbn, dlITask.getImage());
                 }

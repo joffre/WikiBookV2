@@ -115,8 +115,8 @@ public class BookFilterCatalogFragment extends Fragment {
             l_filter.add(bookMap);
         }
         SimpleAdapter listAdapter = new SimpleAdapter(getActivity().getBaseContext(), l_filter, R.layout.book_filter_detail,
-                new String[] {"name", "author", "title", "gender","isbn", "year", "description"},
-                new int[] {R.id.filterName, R.id.filterAuthor, R.id.filterTitle, R.id.filterGender, R.id.filterIsbn, R.id.filterYear, R.id.filterDescription});
+                new String[] {"name"},
+                new int[] {R.id.filterName});
         bookFilterList.setAdapter(listAdapter);
         bookFilterList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
