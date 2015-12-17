@@ -94,7 +94,6 @@ public class ImageCollection {
      * @return
      */
     private static String getPath(String isbn){
-        System.out.println(IMAGE_FOLDER+ isbn + IMAGE_FORMAT);
         return IMAGE_FOLDER+ isbn + IMAGE_FORMAT;
     }
 

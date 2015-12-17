@@ -32,7 +32,6 @@ public class BookCollection {
             for(BookDetails bookDetails : booksDetails){
                 Book book = new Book(bookDetails);
                 books.add(book);
-                System.out.println(book.getIsbn());
             }
         } catch (SQLException e){
 
