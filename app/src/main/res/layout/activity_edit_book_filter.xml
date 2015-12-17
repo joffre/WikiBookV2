@@ -1,202 +1,206 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.pje.def.wikibook.activity.EditBookFilterActivity"
-    android:orientation="vertical"
-    >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/name"
-            android:id="@+id/TextName"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"/>
-
-        <EditText
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hintName"
-            android:id="@+id/CriterionName"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/title"
-            android:id="@+id/TextTitle"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"/>
-
-        <EditText
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hintTitle"
-            android:id="@+id/CriterionTitle"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/author"
-            android:id="@+id/textAuthor"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"/>
-
-        <EditText
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hintAuthor"
-            android:id="@+id/CriterionAuthor"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/year"
-            android:id="@+id/textYear"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"/>
-
-        <EditText
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hintYear"
-            android:id="@+id/CriterionYear"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/genre"
-            android:id="@+id/textGenre"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"/>
-
-        <Spinner
-            android:id="@+id/spinnerFilter"
-            android:layout_below="@+id/tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:scrollbarStyle="outsideOverlay"
-
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/description"
-            android:id="@+id/textDescription"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"/>
-
-        <EditText
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hintDescription"
-            android:id="@+id/CriterionDescription"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/isbn"
-            android:id="@+id/textIsbn"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"/>
-
-        <EditText
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/hintIsbn"
-            android:id="@+id/CriterionIsbn"
-            />
-    </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/EditBookFilter"
-        android:id="@+id/btn_edit_filter"
-        android:onClick="editBookFilter"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_gravity="center"/>
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.pje.def.wikibook.activity.EditBookFilterActivity"
+        android:orientation="vertical"
+        >
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/name"
+                android:id="@+id/TextName"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintName"
+                android:id="@+id/CriterionName"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/title"
+                android:id="@+id/TextTitle"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintTitle"
+                android:id="@+id/CriterionTitle"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/author"
+                android:id="@+id/textAuthor"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintAuthor"
+                android:id="@+id/CriterionAuthor"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/year"
+                android:id="@+id/textYear"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintYear"
+                android:id="@+id/CriterionYear"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/genre"
+                android:id="@+id/textGenre"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+            <Spinner
+                android:id="@+id/spinnerFilter"
+                android:layout_below="@+id/tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:scrollbarStyle="outsideOverlay"
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/description"
+                android:id="@+id/textDescription"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintDescription"
+                android:id="@+id/CriterionDescription"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/isbn"
+                android:id="@+id/textIsbn"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintIsbn"
+                android:id="@+id/CriterionIsbn"
+                />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/EditBookFilter"
+            android:id="@+id/btn_edit_filter"
+            android:onClick="editBookFilter"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+</ScrollView>
