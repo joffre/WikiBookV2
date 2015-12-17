@@ -13,7 +13,7 @@ import com.pje.def.wikibook.model.Genre;
 import java.sql.SQLException;
 
 /**
- * Gestionnaire de la ase de donnée de l'application
+ * Database Manager
  * Created by Geoffrey on 22/10/2015.
  */
 public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
@@ -29,6 +29,11 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Create tables et initiate them
+     * @param sqliteDatabase
+     * @param connectionSource
+     */
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
         try {
@@ -47,6 +52,13 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    /**
+     * Drop table on upgrade
+     * @param sqliteDatabase
+     * @param connectionSource
+     * @param oldVer
+     * @param newVer
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         try {
@@ -61,7 +73,7 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     *  Accesseur de la table des genres
+     *  Genres table accessor
      */
     public  Dao<GenreDetails, Integer> getGenreDao() throws  SQLException {
         if(genderDao == null){
@@ -71,7 +83,7 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     *  Accesseur de la table des livres
+     * Books table accessor
      */
     public Dao<BookDetails, Integer> getBookDao() throws SQLException {
         if (bookDao == null) {
@@ -81,7 +93,7 @@ public class DatabaseHandler extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     *  Accesseur de la table des filtres
+     * Book filters table accessor
      */
     public Dao<FilterDetails, Integer> getFilterDao() throws SQLException {
         if (filterDao == null) {

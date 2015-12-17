@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
+ * Parser of the httprequest result after scan
  * Created by Sim on 18/11/2015.
  */
 public class JSONParser {
@@ -67,7 +68,9 @@ public class JSONParser {
         }
     }
 
-    //GETTER & SETTER
+    /**
+     * GETTER & SETTER
+    */
     public String getObject() {
         return object;
     }

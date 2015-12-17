@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import java.io.InputStream;
 
 /**
+ * Task who load a pic from an URL, save it and set pic to an ImageView
  * Created by Geoffrey on 16/12/2015.
  */
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -38,6 +39,10 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         bmImage.setImageBitmap(result);
     }
 
+    /**
+     * Return pic after loading
+     * @return
+     */
     public Bitmap getImage(){
         return this.image;
     }

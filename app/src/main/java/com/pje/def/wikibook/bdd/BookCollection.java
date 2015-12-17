@@ -138,7 +138,6 @@ public class BookCollection {
             for(BookDetails bDetails : bookList){
                 filtredBooks.add(new Book(bDetails));
             }
-
         } catch (SQLException e){
 
         }

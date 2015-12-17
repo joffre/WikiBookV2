@@ -7,6 +7,9 @@ import android.view.MenuItem;
 
 import com.pje.def.wikibook.R;
 
+/**
+ * Context for book detail
+ */
 public class BookDetailContext extends AppCompatActivity {
 
     @Override

@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.bdd.ImageCollection;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.bdd.BookCollection;
 import com.pje.def.wikibook.utility.MySimpleAdapter;
@@ -165,7 +166,6 @@ public class BookCollectionFragment extends Fragment {
                 return true;
             }
         });
-
         getActivity().setTitle("My Collection");
         majListBook();
         System.out.println("On create view");
@@ -177,13 +177,6 @@ public class BookCollectionFragment extends Fragment {
         super.onResume();
         majListBook();
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    /*public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }*/
 
     @Override
     public void onAttach(Activity activity) {
@@ -276,6 +269,7 @@ public class BookCollectionFragment extends Fragment {
         if(selectionMode && !selectedItems.isEmpty()) {
             for(String isbn : selectedItems.values()){
                 BookCollection.removeBook(isbn);
+                ImageCollection.deleteImage(isbn);
             }
             majListBook();
             getActivity().setTitle("My Collection");

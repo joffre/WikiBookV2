@@ -64,6 +64,23 @@ public class ImageCollection {
         }
     }
 
+    /**
+     * Delete all images
+     */
+    public static void deleteAll(){
+        File dir = new File(IMAGE_FOLDER);
+        if(dir.exists()){
+            File[] toDelete = dir.listFiles();
+            for(int i = 0; i < toDelete.length; i++){
+                toDelete[i].delete();
+            }
+        }
+    }
+
+    /**
+     * Delete Image by his isbn
+     * @param isbn
+     */
     public static void deleteImage(String isbn){
         File file = new File(getPath(isbn));
         if(file.exists()){
@@ -71,12 +88,19 @@ public class ImageCollection {
         }
     }
 
+    /**
+     * Get path of a file from isbn
+     * @param isbn
+     * @return
+     */
     private static String getPath(String isbn){
         System.out.println(IMAGE_FOLDER+ isbn + IMAGE_FORMAT);
         return IMAGE_FOLDER+ isbn + IMAGE_FORMAT;
     }
 
-    /* Checks if external storage is available for read and write */
+    /**
+     * Checks if external storage is available for read and write
+     * */
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -85,7 +109,9 @@ public class ImageCollection {
         return false;
     }
 
-    /* Checks if external storage is available to at least read */
+    /**
+     *  Checks if external storage is available to at least read
+     */
     public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||

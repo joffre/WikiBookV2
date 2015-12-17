@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Activity which use the camera
+ */
 public class FormationCameraActivity extends Activity implements SurfaceHolder.Callback {
     private Camera camera;
     private SurfaceView surfaceCamera;
@@ -82,6 +85,10 @@ public class FormationCameraActivity extends Activity implements SurfaceHolder.C
         }
 
     }
+
+    /**
+     * Initialise camera
+     */
     public void InitializeCamera() {
     // Nous attachons nos retours du holder à notre activité
         surfaceCamera.getHolder().addCallback(this);

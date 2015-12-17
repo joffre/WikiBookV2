@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Adapter for a list view. It manages the view with book covers
  * Created by Geoffrey on 17/12/2015.
  */
 public class MySimpleAdapter extends SimpleAdapter {
@@ -28,6 +29,13 @@ public class MySimpleAdapter extends SimpleAdapter {
             inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
+    /**
+     * Generate a adapted view of a book
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 

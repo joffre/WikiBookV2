@@ -41,10 +41,10 @@ public class GenreCollection {
 
     /**
      * get a gender with its id
-     * @param genderId
+     * @param genreId
      * @return
      */
-    public static Genre getGender(int genderId)
+    public static Genre getGender(int genreId)
     {
         try{
             QueryBuilder<GenreDetails, Integer> queryBuilder = MainActivity.getHelper().getGenreDao().queryBuilder();

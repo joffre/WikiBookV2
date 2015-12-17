@@ -3,7 +3,7 @@ package com.pje.def.wikibook.bdd;
 import com.j256.ormlite.field.DatabaseField;
 
 /**
- * Représente un élément de la table du même nom
+ * Represent an table element of table of the same name
  * Created by Sim on 03/12/2015.
  */
 public class GenreDetails {
@@ -15,14 +15,14 @@ public class GenreDetails {
     protected String genreTitle;
 
     /**
-     * Constructeur vide nécessaire au framework
+     * Empty constructor used by orm framework
      */
     public GenreDetails(){
 
     }
 
     /**
-     * Contructeur du GenreDetail
+     * GenreDetail constructor
      */
     public GenreDetails(int genreId, String genreTitle) {
         this.genreId = genreId;

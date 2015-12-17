@@ -22,15 +22,14 @@ import com.pje.def.wikibook.bdd.BookCollection;
 import com.pje.def.wikibook.bdd.BookFilterCollection;
 import com.pje.def.wikibook.bdd.ImageCollection;
 
+/**
+ * MainActivity of the app. It's also a container for principal fragments
+ */
 public class MainActivity extends AppCompatActivity {
 
-    //Defining Variables
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-
-    public static BookCollection books;
-    public static BookFilterCollection filters;
 
     private static DatabaseHandler databaseHandler = null;
     private static boolean isInitialized;
