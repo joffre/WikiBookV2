@@ -35,7 +35,6 @@ import com.pje.def.wikibook.bdd.ImageCollection;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.bdd.GenreCollection;
 import com.pje.def.wikibook.model.Genre;
-import com.pje.def.wikibook.scan.FragmentIntentIntegrator;
 import com.pje.def.wikibook.scan.HttpRequest;
 import com.pje.def.wikibook.scan.JSONParser;
 import com.pje.def.wikibook.utility.DownloadImageTask;

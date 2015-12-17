@@ -34,11 +34,11 @@ public class GenreCollection {
         return gender;
     }
 
-    public static Genre getGender(int genderId)
+    public static Genre getGender(int genreId)
     {
         try{
             QueryBuilder<GenreDetails, Integer> queryBuilder = MainActivity.getHelper().getGenreDao().queryBuilder();
-            queryBuilder.where().eq("gender_id", genderId);
+            queryBuilder.where().eq("genre_id", genreId);
             PreparedQuery<GenreDetails> preparedQuery = queryBuilder.prepare();
 
             List<GenreDetails> genderList = MainActivity.getHelper().getGenreDao().query(preparedQuery);
@@ -62,7 +62,7 @@ public class GenreCollection {
         try{
             System.out.println("Suppression de  : " + genreId);
             DeleteBuilder<GenreDetails, Integer> deleteBuilder = MainActivity.getHelper().getGenreDao().deleteBuilder();
-            deleteBuilder.where().eq("gender_id", genreId);
+            deleteBuilder.where().eq("genre_id", genreId);
             deleteBuilder.delete();
             return true;
         } catch(SQLException exception){
