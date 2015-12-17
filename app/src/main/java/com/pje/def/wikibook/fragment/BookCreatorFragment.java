@@ -360,6 +360,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 //                ImageCollection.addImage(s_isbn, dlITask.getImage());
                 if(dlITask != null){
                     ImageCollection.addImage(s_isbn, dlITask.getImage());
+                    dlITask = null;
+                    ImageView cover = (ImageView) v.findViewById(R.id.EditImage);
+                    cover.setImageResource(R.drawable.icone);
                 }
             } else {
                 text = "Your book can't be create";

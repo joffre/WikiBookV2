@@ -58,18 +58,6 @@ public class FiltredCollectionActivity extends AppCompatActivity {
                 new int[] {R.id.img_cover, R.id.author, R.id.title, R.id.gender, R.id.isbn, R.id.year, R.id.description});
 
         filtredBookList.setAdapter(listAdapter);
-       /* bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                ActionBar actionBar = getSupportActionBar();
-                actionBar.show();
-                HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
-                actionBar.setTitle(map.get("title"));
-                lastItemClicked = position;
-                System.out.println(position + "   " + id);
-            }
-        });*/
         Context context = getApplicationContext();
 
         int duration = Toast.LENGTH_LONG;
