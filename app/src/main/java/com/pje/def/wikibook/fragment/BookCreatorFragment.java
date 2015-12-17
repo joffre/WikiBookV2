@@ -101,6 +101,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         if(getActivity()!=null)
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        dlITask = null;
     }
 
     @Override
@@ -236,8 +237,10 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             Log.v("TEST", parser.getAuthor());
             Log.v("TEST", parser.getTitle());
             Log.v("TEST", parser.getYear());
-            dlITask = new DownloadImageTask((ImageView) v.findViewById(R.id.EditImage));
-            dlITask.execute(parser.getThumbnail());
+            if(parser.getThumbnail() != null && !parser.getThumbnail().isEmpty()) {
+                dlITask = new DownloadImageTask((ImageView) v.findViewById(R.id.EditImage));
+                dlITask.execute(parser.getThumbnail());
+            }
         } else {
             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                     "Fragment not enable", Toast.LENGTH_SHORT);
@@ -308,10 +311,10 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         BookDetails newBookDetails = new BookDetails(s_isbn, s_title, s_author, s_year, s_genre, s_description);
         Book newBook = new Book( newBookDetails);
         CharSequence text;
-        if(s_isbn == null || s_isbn.isEmpty()){
-            text = "Isbn not found.";
+        if(s_isbn == null || s_isbn.isEmpty() || s_isbn.charAt(0)=='U'){
+            text = "Isbn not found or incorrect.";
         } else if(BookCollection.getBook(s_isbn) == null) {
-            text = "Your book has been created";
+            text = "Your book has been created : ("+s_isbn+")";
             if (BookCollection.addBook(newBook)) {
                 title.getText().clear();
                 author.getText().clear();
@@ -319,7 +322,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
                 year.getText().clear();
                 isbn.getText().clear();
                 spinner.setSelection(0);
-                ImageCollection.addImage(s_isbn, dlITask.getImage());
+                if(dlITask != null){
+                    ImageCollection.addImage(s_isbn, dlITask.getImage());
+                }
             } else {
                 text = "Your book can't be create";
             }

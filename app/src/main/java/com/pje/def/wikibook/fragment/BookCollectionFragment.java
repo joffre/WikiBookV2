@@ -24,6 +24,7 @@ import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.EditBookActivity;
 import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
+import com.pje.def.wikibook.utility.MySimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -225,7 +226,7 @@ public class BookCollectionFragment extends Fragment {
             l_books.add(bookMap);
         }
 
-        SimpleAdapter listAdapter = new SimpleAdapter(getActivity().getBaseContext(), l_books, R.layout.book_detail,
+        MySimpleAdapter listAdapter = new MySimpleAdapter(getActivity().getBaseContext(), l_books, R.layout.book_detail,
                 /*ajout gender*/
                 new String[] {"img", "author", "title"},
                 new int[] {R.id.img_cover, R.id.author, R.id.title});
