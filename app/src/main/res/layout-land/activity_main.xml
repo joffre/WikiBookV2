@@ -35,7 +35,7 @@
         <FrameLayout
             android:id="@+id/frameDetail"
             android:layout_width="285dp"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="right"
             android:layout_marginTop="50dp"
             android:layout_weight="0.50">
