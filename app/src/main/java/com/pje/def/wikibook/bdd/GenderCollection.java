@@ -1,4 +1,4 @@
-package com.pje.def.wikibook.model;
+package com.pje.def.wikibook.bdd;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -7,6 +7,7 @@ import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.bdd.GenderDetails;
+import com.pje.def.wikibook.model.Genre;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

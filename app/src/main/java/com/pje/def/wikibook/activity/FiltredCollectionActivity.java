@@ -7,14 +7,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.model.Book;
-import com.pje.def.wikibook.model.BookCollection;
+import com.pje.def.wikibook.bdd.BookCollection;
 import com.pje.def.wikibook.model.BookFilter;
-import com.pje.def.wikibook.model.BookFilterCollection;
+import com.pje.def.wikibook.bdd.BookFilterCollection;
 import com.pje.def.wikibook.utility.MySimpleAdapter;
 
 import java.util.ArrayList;
@@ -22,17 +21,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Activity which shows the result of a filter, a list of book
+ */
 public class FiltredCollectionActivity extends AppCompatActivity {
 
     BookFilter filter;
 
     public static final String FILTER_NAME = "filter_name";
 
+    /**
+     * Initialize the list of books filtered
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
+        // get the filter name
         String filter_name = intent.getStringExtra(FILTER_NAME);
 
         setContentView(R.layout.activity_filtred_book_collection);
@@ -40,6 +47,7 @@ public class FiltredCollectionActivity extends AppCompatActivity {
 
         List<Map<String, String>> l_filtred_books = new ArrayList<Map<String, String>>();
 
+        // Get the list of book corresponding with the following filter
         filter = BookFilterCollection.getBookFilter(filter_name);
         for (Book book : BookCollection.getBooks(filter)) {
             Map<String, String> bookMap = new HashMap<String, String>();

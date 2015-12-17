@@ -14,15 +14,15 @@ import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.FilterDetails;
-import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookFilter;
-import com.pje.def.wikibook.model.BookFilterCollection;
-import com.pje.def.wikibook.model.GenderCollection;
-import com.pje.def.wikibook.model.Genre;
+import com.pje.def.wikibook.bdd.BookFilterCollection;
+import com.pje.def.wikibook.bdd.GenderCollection;
 
-import java.util.Collections;
 import java.util.List;
 
+/**
+ * Activity which manage the editing of a bookFilter
+ * */
 public class EditBookFilterActivity extends AppCompatActivity {
 
     private String filterName;
@@ -30,6 +30,10 @@ public class EditBookFilterActivity extends AppCompatActivity {
 
     public static final String FILTER_TO_EDIT = "filter_to_edit";
 
+    /**
+     * Initialize all elements of the activity, Textview, EditText, Spinner and button
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +92,11 @@ public class EditBookFilterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Associate with the "Edit the Filter" Button
+     * Udpate the BookFilter in the db with the new following informations
+     * @param view
+     */
     public void editBookFilter(View view){
         EditText name = (EditText)findViewById(R.id.CriterionName);
         EditText title = (EditText)findViewById(R.id.CriterionTitle);
@@ -96,6 +105,7 @@ public class EditBookFilterActivity extends AppCompatActivity {
         EditText year = (EditText)findViewById(R.id.CriterionYear);
         EditText isbn = (EditText)findViewById(R.id.CriterionIsbn);
 
+        // If the gender is count in the filter or not
         String gender;
         if(genreSpinner.getSelectedItem().toString().equals("No Gender")){
             gender = "";
@@ -103,6 +113,7 @@ public class EditBookFilterActivity extends AppCompatActivity {
             gender = genreSpinner.getSelectedItem().toString();
         }
 
+        // Create the new BookFilter
         FilterDetails newBookFilterDetails = new FilterDetails(name.getText().toString(), title.getText().toString(), author.getText().toString(), year.getText().toString(), gender, description.getText().toString(), isbn.getText().toString());
 
         if(!name.getText().toString().toLowerCase().trim().equals(filterName.toLowerCase().trim()) && BookFilterCollection.getBookFilter(name.getText().toString().trim()) != null){
@@ -134,6 +145,11 @@ public class EditBookFilterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * find the spinner position with the book gender
+     * @param bookFilter
+     * @return spinner index
+     */
     public int findGenrePosition(BookFilter bookFilter)
     {
         int ret = -1;

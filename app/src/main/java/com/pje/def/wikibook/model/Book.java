@@ -6,12 +6,24 @@ import com.pje.def.wikibook.bdd.BookDetails;
 import java.io.Serializable;
 
 /**
+ * Represent a book with all its information
  * Created by S on 24/09/2015.
  */
 public class Book implements Serializable{
-
+    /**
+     * All book information
+     */
     public String title, author, genre, year, description, isbn;
 
+    /**
+     * Create a new book
+     * @param title
+     * @param author
+     * @param genre
+     * @param year
+     * @param description
+     * @param isbn
+     */
     public Book(String title, String author, String genre, String year, String description, String isbn) {
         this.title = title.trim();
         this.author = author.trim();
@@ -21,6 +33,10 @@ public class Book implements Serializable{
         this.isbn = isbn.trim();
     }
 
+    /**
+     * Create a ew book with a BDD/bookDetails
+     * @param details
+     */
     public Book(BookDetails details) {
         this.title = details.getBookTitle();
         this.author = details.getBookAuthor();
@@ -34,6 +50,7 @@ public class Book implements Serializable{
         return new BookDetails(this.isbn, this.title, this.author, this.year, this.genre, this.description);
     }
 
+    // GETTER & SETTER
     public String getGenre() {
         return genre;
     }

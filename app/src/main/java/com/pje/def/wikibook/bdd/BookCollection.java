@@ -1,4 +1,4 @@
-package com.pje.def.wikibook.model;
+package com.pje.def.wikibook.bdd;
 
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -7,12 +7,15 @@ import com.pje.def.wikibook.BookDetail;
 import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookDetails;
+import com.pje.def.wikibook.model.Book;
+import com.pje.def.wikibook.model.BookFilter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Manage the book Collection
  * Created by S on 24/09/2015.
  */
 public class BookCollection {

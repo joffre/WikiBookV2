@@ -7,41 +7,40 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.fragment.BookDetailFragment;
 import com.pje.def.wikibook.model.Book;
-import com.pje.def.wikibook.model.BookCollection;
-import com.pje.def.wikibook.model.GenderCollection;
+import com.pje.def.wikibook.bdd.BookCollection;
+import com.pje.def.wikibook.bdd.GenderCollection;
 import com.pje.def.wikibook.model.Genre;
 
 import java.util.List;
 
 /**
+ * Activity which manage the editing of a book
  * Created by David on 07/10/2015.
  */
 public class EditBookActivity extends Activity {
+
     private int cpt = 0;
     public static final String BOOK_TO_EDIT = "book_edit";
     private TextView hideGenre;
     private EditText newGenre;
     private Spinner spinner;
     private List<String> arrayGenre;
+    private String book_isbn;
 
-    String book_isbn;
-
+    /**
+     * Initialize all elements of the activity, Textview, EditText, Spinner and button
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +93,11 @@ public class EditBookActivity extends Activity {
 
     }
 
+    /**
+     * find the spinner position with the book gender
+     * @param book
+     * @return spinner index
+     */
     public int findGenrePosition(Book book)
     {
         int cpt = 0;
@@ -106,6 +110,11 @@ public class EditBookActivity extends Activity {
         return -1;
     }
 
+    /**
+     * Associate with the "Edit the Book" Button
+     * Udpate the Book in the db with the new following informations
+     * @param view
+     */
     public void editBook(View view)
     {
         String s_genre;

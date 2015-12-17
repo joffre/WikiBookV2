@@ -1,4 +1,4 @@
-package com.pje.def.wikibook.model;
+package com.pje.def.wikibook.bdd;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

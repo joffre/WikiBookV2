@@ -1,4 +1,4 @@
-package com.pje.def.wikibook.model;
+package com.pje.def.wikibook.bdd;
 
 import android.provider.Settings;
 
@@ -9,6 +9,7 @@ import com.pje.def.wikibook.MainActivity;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.bdd.FilterDetails;
+import com.pje.def.wikibook.model.BookFilter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
