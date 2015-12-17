@@ -1,15 +1,10 @@
 package com.pje.def.wikibook.fragment;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,19 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pje.def.wikibook.BlankFragment;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.EditBookActivity;
 import com.pje.def.wikibook.model.Book;
-import com.pje.def.wikibook.model.BookCollection;
-import com.pje.def.wikibook.model.ImageCollection;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.pje.def.wikibook.bdd.BookCollection;
+import com.pje.def.wikibook.bdd.ImageCollection;
 
 /**
  * A simple {@link Fragment} subclass.

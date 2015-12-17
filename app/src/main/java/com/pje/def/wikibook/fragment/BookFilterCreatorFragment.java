@@ -18,8 +18,10 @@ import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.bdd.BookFilterCollection;
 import com.pje.def.wikibook.bdd.FilterDetails;
 import com.pje.def.wikibook.model.BookFilter;
-import com.pje.def.wikibook.bdd.GenreCollection;
+import com.pje.def.wikibook.bdd.BookFilterCollection;
+import com.pje.def.wikibook.bdd.GenderCollection;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +89,7 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
 
         genreSpinner = (Spinner)view.findViewById(R.id.spinner2);
 
-        final List<String> arrayGenre = GenreCollection.getGendersToString();
+        final List<String> arrayGenre = GenderCollection.getGendersToString();
         ArrayAdapter my_adapter = new ArrayAdapter(getActivity(), R.layout.spinner_row, arrayGenre);
         genreSpinner.setAdapter(my_adapter);
 

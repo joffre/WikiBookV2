@@ -19,7 +19,7 @@ import android.widget.SimpleAdapter;
 import com.pje.def.wikibook.R;
 import com.pje.def.wikibook.activity.FiltredCollectionActivity;
 import com.pje.def.wikibook.model.BookFilter;
-import com.pje.def.wikibook.model.BookFilterCollection;
+import com.pje.def.wikibook.bdd.BookFilterCollection;
 import com.pje.def.wikibook.activity.EditBookFilterActivity;
 
 import java.util.ArrayList;

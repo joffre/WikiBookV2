@@ -9,6 +9,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.Image;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,15 +18,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.pje.def.wikibook.FormationCameraActivity;
 import com.pje.def.wikibook.MainActivity;
@@ -33,12 +39,18 @@ import com.pje.def.wikibook.bdd.BookCollection;
 import com.pje.def.wikibook.bdd.BookDetails;
 import com.pje.def.wikibook.bdd.ImageCollection;
 import com.pje.def.wikibook.model.Book;
+import com.pje.def.wikibook.bdd.BookCollection;
+import com.pje.def.wikibook.bdd.GenderCollection;
 import com.pje.def.wikibook.bdd.GenreCollection;
 import com.pje.def.wikibook.model.Genre;
+import com.pje.def.wikibook.bdd.ImageCollection;
 import com.pje.def.wikibook.scan.HttpRequest;
 import com.pje.def.wikibook.scan.JSONParser;
 import com.pje.def.wikibook.utility.DownloadImageTask;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -142,7 +154,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         genreSpinner = (Spinner)v.findViewById(R.id.spinner1);
 
-        final List<String> arrayGenre = GenreCollection.getGendersToString();
+        final List<String> arrayGenre = GenderCollection.getGendersToString();
         arrayGenre.add("Add a new gender");
         ArrayAdapter my_adapter = new ArrayAdapter(getActivity(), R.layout.spinner_row, arrayGenre);
         genreSpinner.setAdapter(my_adapter);
@@ -167,9 +179,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         vCF = v;
 
-        if(GenreCollection.getGenres().size() > 0) {
-            Log.d("TEST", GenreCollection.getGenres().get(1).getGenreTitle().toString());
-            System.out.println(GenreCollection.getGenres().get(1).getGenreTitle().toString());
+        if(GenderCollection.getGenders().size() > 0) {
+            Log.d("TEST", GenderCollection.getGenders().get(1).getGenreTitle().toString());
+            System.out.println(GenderCollection.getGenders().get(1).getGenreTitle().toString());
         }
         return v;
     }
@@ -335,9 +347,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         if(addGender.getText().toString().trim().length() != 0)
         {
             s_genre = addGender.getText().toString().trim();
-            List<Genre> l_genre = GenreCollection.getGenres();
+            List<Genre> l_genre = GenderCollection.getGenders();
             int newId = l_genre.get(l_genre.size() - 1).getGenreId() + 1;
-            GenreCollection.addGender(new Genre(newId, s_genre));
+            GenderCollection.addGender(new Genre(newId, s_genre));
         } else {
             s_genre = (!spinner.getSelectedItem().toString().isEmpty()) ? spinner.getSelectedItem().toString() : getResources().getString(R.string.u_genre);
         }

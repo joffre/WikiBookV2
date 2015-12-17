@@ -1,6 +1,5 @@
 package com.pje.def.wikibook;
 
-import android.content.pm.ActivityInfo;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,9 +17,9 @@ import com.pje.def.wikibook.fragment.BookCollectionFragment;
 import com.pje.def.wikibook.fragment.BookCreatorFragment;
 import com.pje.def.wikibook.fragment.BookFilterCreatorFragment;
 import com.pje.def.wikibook.fragment.BookFilterCatalogFragment;
-import com.pje.def.wikibook.model.BookCollection;
-import com.pje.def.wikibook.model.BookFilterCollection;
-import com.pje.def.wikibook.model.ImageCollection;
+import com.pje.def.wikibook.bdd.BookCollection;
+import com.pje.def.wikibook.bdd.BookFilterCollection;
+import com.pje.def.wikibook.bdd.ImageCollection;
 
 public class MainActivity extends AppCompatActivity {
 
