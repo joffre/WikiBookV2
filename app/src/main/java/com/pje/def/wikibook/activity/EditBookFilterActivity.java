@@ -13,10 +13,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
-import com.pje.def.wikibook.bdd.FilterDetails;
-import com.pje.def.wikibook.model.BookFilter;
 import com.pje.def.wikibook.bdd.BookFilterCollection;
-import com.pje.def.wikibook.bdd.GenderCollection;
+import com.pje.def.wikibook.bdd.FilterDetails;
+import com.pje.def.wikibook.bdd.GenreCollection;
+import com.pje.def.wikibook.model.BookFilter;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class EditBookFilterActivity extends AppCompatActivity {
 
         genreSpinner = (Spinner)findViewById(R.id.spinnerFilter);
 
-        final List<String> arrayGenre = GenderCollection.getGendersToString();
+        final List<String> arrayGenre = GenreCollection.getGendersToString();
         ArrayAdapter my_adapter = new ArrayAdapter(this, R.layout.spinner_row, arrayGenre);
         genreSpinner.setAdapter(my_adapter);
 
@@ -153,7 +153,7 @@ public class EditBookFilterActivity extends AppCompatActivity {
     public int findGenrePosition(BookFilter bookFilter)
     {
         int ret = -1;
-        List<String> l_genre = GenderCollection.getGendersToString();
+        List<String> l_genre = GenreCollection.getGendersToString();
 
         for(int i = 0; i<l_genre.size(); i++){
             if(l_genre.get(i).equals(bookFilter.getCriterion(BookFilter.FilterType.GENDER))) {

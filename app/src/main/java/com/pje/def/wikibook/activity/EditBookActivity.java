@@ -15,10 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pje.def.wikibook.R;
+import com.pje.def.wikibook.bdd.BookCollection;
+import com.pje.def.wikibook.bdd.GenreCollection;
 import com.pje.def.wikibook.fragment.BookDetailFragment;
 import com.pje.def.wikibook.model.Book;
-import com.pje.def.wikibook.bdd.BookCollection;
-import com.pje.def.wikibook.bdd.GenderCollection;
 import com.pje.def.wikibook.model.Genre;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class EditBookActivity extends Activity {
         EditText isbn = (EditText)findViewById(R.id.EditIsbn);
         isbn.setText(book.getIsbn());
 
-        arrayGenre = GenderCollection.getGendersToString();
+        arrayGenre = GenreCollection.getGendersToString();
         arrayGenre.add("Add a new gender");
         ArrayAdapter my_adapter = new ArrayAdapter(this, R.layout.spinner_row, arrayGenre);
         spinner.setAdapter(my_adapter);
@@ -101,7 +101,7 @@ public class EditBookActivity extends Activity {
     public int findGenrePosition(Book book)
     {
         int cpt = 0;
-        List<String> l_genre = GenderCollection.getGendersToString();
+        List<String> l_genre = GenreCollection.getGendersToString();
 
         for(int i = 0; i<l_genre.size(); i++){
             if(l_genre.get(i).equals(book.genre))
@@ -121,9 +121,9 @@ public class EditBookActivity extends Activity {
         if(newGenre.getText().toString().trim().length() != 0)
         {
             s_genre = newGenre.getText().toString().trim();
-            List<Genre> l_genre = GenderCollection.getGenders();
+            List<Genre> l_genre = GenreCollection.getGenres();
             int newId = l_genre.get(l_genre.size() - 1).getGenreId() + 1;
-            GenderCollection.addGender(new Genre(newId, s_genre));
+            GenreCollection.addGender(new Genre(newId, s_genre));
         } else {
             s_genre = (!spinner.getSelectedItem().toString().isEmpty()) ? spinner.getSelectedItem().toString() : getResources().getString(R.string.u_genre);
         }
@@ -146,7 +146,7 @@ public class EditBookActivity extends Activity {
         spinner.setSelection(0);
         isbn.getText().clear();
 
-        arrayGenre = GenderCollection.getGendersToString();
+        arrayGenre = GenreCollection.getGendersToString();
         ArrayAdapter my_adapter = new ArrayAdapter(this, R.layout.spinner_row, arrayGenre);
         spinner.setAdapter(my_adapter);
 

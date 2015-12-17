@@ -4,9 +4,7 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.pje.def.wikibook.MainActivity;
-import com.pje.def.wikibook.R;
-import com.pje.def.wikibook.bdd.BookDetails;
-import com.pje.def.wikibook.bdd.GenderDetails;
+import com.pje.def.wikibook.bdd.GenreDetails;
 import com.pje.def.wikibook.model.Genre;
 
 import java.sql.SQLException;
@@ -16,18 +14,18 @@ import java.util.List;
 /**
  * Created by Sim on 03/12/2015.
  */
-public class GenderCollection {
+public class GenreCollection {
 
-    public GenderCollection() {
+    public GenreCollection() {
 
     }
 
-    public static List<Genre> getGenders(){
+    public static List<Genre> getGenres(){
         List<Genre> gender = new ArrayList<Genre>();
         try{
-            List<GenderDetails> gendersDetails = MainActivity.getHelper().getGenderDao().queryForAll();
-            for(GenderDetails genderDetails : gendersDetails){
-                Genre genre = new Genre(genderDetails);
+            List<GenreDetails> genresDetails = MainActivity.getHelper().getGenreDao().queryForAll();
+            for(GenreDetails genreDetails : genresDetails){
+                Genre genre = new Genre(genreDetails);
                 gender.add(genre);
             }
         } catch (SQLException e){
@@ -39,11 +37,11 @@ public class GenderCollection {
     public static Genre getGender(int genderId)
     {
         try{
-            QueryBuilder<GenderDetails, Integer> queryBuilder = MainActivity.getHelper().getGenderDao().queryBuilder();
+            QueryBuilder<GenreDetails, Integer> queryBuilder = MainActivity.getHelper().getGenreDao().queryBuilder();
             queryBuilder.where().eq("gender_id", genderId);
-            PreparedQuery<GenderDetails> preparedQuery = queryBuilder.prepare();
+            PreparedQuery<GenreDetails> preparedQuery = queryBuilder.prepare();
 
-            List<GenderDetails> genderList = MainActivity.getHelper().getGenderDao().query(preparedQuery);
+            List<GenreDetails> genderList = MainActivity.getHelper().getGenreDao().query(preparedQuery);
             if(!genderList.isEmpty()) return new Genre(genderList.get(0));
         } catch (SQLException e){
 
@@ -53,7 +51,7 @@ public class GenderCollection {
 
     public static Boolean addGender(Genre genre){
         try{
-            MainActivity.getHelper().getGenderDao().create(genre.getBookDetails());
+            MainActivity.getHelper().getGenreDao().create(genre.getBookDetails());
             return true;
         }catch (SQLException e){
             return false;
@@ -63,7 +61,7 @@ public class GenderCollection {
     public static boolean removeGender(int genreId){
         try{
             System.out.println("Suppression de  : " + genreId);
-            DeleteBuilder<GenderDetails, Integer> deleteBuilder = MainActivity.getHelper().getGenderDao().deleteBuilder();
+            DeleteBuilder<GenreDetails, Integer> deleteBuilder = MainActivity.getHelper().getGenreDao().deleteBuilder();
             deleteBuilder.where().eq("gender_id", genreId);
             deleteBuilder.delete();
             return true;
@@ -74,7 +72,7 @@ public class GenderCollection {
 
     public static ArrayList<String> getGendersToString(){
         ArrayList<String> my_array = new ArrayList<String>();
-        for(Genre genre : getGenders()) {
+        for(Genre genre : getGenres()) {
             my_array.add(genre.genreTitle);
         }
         return my_array;
@@ -82,7 +80,7 @@ public class GenderCollection {
 
 
     public static boolean removeAll(){
-        for(Genre genre : getGenders()){
+        for(Genre genre : getGenres()){
             removeGender(genre.getGenreId());
         }
         return true;

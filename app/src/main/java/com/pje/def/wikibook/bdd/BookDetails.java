@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 
 /**
+ * Représente un élément de la table du même nom
  * Created by Geoffrey on 22/10/2015.
  */
 public class BookDetails implements Serializable {
@@ -27,16 +28,17 @@ public class BookDetails implements Serializable {
     @DatabaseField(columnName = "book_description")
     protected String bookDescription;
 
+    /**
+     * Constructeur vide nécessaire au framework
+     */
     public BookDetails(){
 
     }
 
-    public BookDetails(String bookIsbn){
-        this.bookIsbn = bookIsbn;
-    }
-
+    /**
+     * Contructeur du BookDetail
+     */
     public BookDetails(String bookIsbn, String bookTitle, String bookAuthor, String bookYear, String bookGenre, String bookDescription) {
-
         this.bookIsbn = bookIsbn;
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
@@ -44,6 +46,10 @@ public class BookDetails implements Serializable {
         this.bookGenre = bookGenre;
         this.bookDescription = bookDescription;
     }
+
+    /**
+     * Getters & Setters
+     */
 
     public String getBookTitle() {
         return bookTitle;

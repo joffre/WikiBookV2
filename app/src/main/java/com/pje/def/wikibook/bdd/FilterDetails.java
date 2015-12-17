@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import java.io.Serializable;
 
 /**
+ * Représente un élément de la table du même nom
  * Created by Geoffrey on 22/10/2015.
  */
 public class FilterDetails implements Serializable {
@@ -30,6 +31,9 @@ public class FilterDetails implements Serializable {
     @DatabaseField(columnName= "filter_isbn")
     protected String filterIsbn;
 
+    /**
+     * Constructeur du FilterDetails
+     */
     public FilterDetails(String filterName, String filterTitle, String filterAuthor, String filterYear, String filterGenre, String filterDescription, String filterIsbn) {
         this.filterName = filterName;
         this.filterTitle = filterTitle;
@@ -40,6 +44,9 @@ public class FilterDetails implements Serializable {
         this.filterIsbn = filterIsbn;
     }
 
+    /**
+     * Constructeur vide nécessaire au framework
+     */
     public FilterDetails() {
     }
 

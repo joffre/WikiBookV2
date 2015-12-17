@@ -1,7 +1,6 @@
 package com.pje.def.wikibook.model;
 
-import com.pje.def.wikibook.bdd.BookDetails;
-import com.pje.def.wikibook.bdd.GenderDetails;
+import com.pje.def.wikibook.bdd.GenreDetails;
 
 /**
  * Created by Sim on 03/12/2015.
@@ -16,13 +15,13 @@ public class Genre {
         this.genreTitle = genreTitle.trim();
     }
 
-    public Genre(GenderDetails details) {
-        this.genreTitle = details.getGenderTitle();
-        this.genreId = details.getGenderId();
+    public Genre(GenreDetails details) {
+        this.genreTitle = details.getGenreTitle();
+        this.genreId = details.getGenreId();
     }
 
-    public GenderDetails getBookDetails(){
-        return new GenderDetails(this.genreId, this.genreTitle);
+    public GenreDetails getBookDetails(){
+        return new GenreDetails(this.genreId, this.genreTitle);
     }
 
     public int getGenreId() {
