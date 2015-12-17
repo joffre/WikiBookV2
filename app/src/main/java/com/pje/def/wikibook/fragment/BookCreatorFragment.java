@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.content.pm.ActivityInfo;
@@ -97,6 +98,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
     private EditText addGender;
     private Spinner genreSpinner;
     private DownloadImageTask dlITask;
+    private Bitmap pictureTaken;
     private TextView hideTitle;
     private Button b3;
     public int cpt = 0;
@@ -279,7 +281,8 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
                 if (resultCode == Activity.RESULT_OK) {
                     byte[] picture = intent.getByteArrayExtra(FormationCameraActivity.DATA_PICTURE_TAKEN);
                     ImageView image = (ImageView) v.findViewById(R.id.EditImage);
-                    image.setImageBitmap(BitmapFactory.decodeByteArray(picture,0,picture.length));
+                    pictureTaken = BitmapFactory.decodeByteArray(picture,0,picture.length);
+                    image.setImageBitmap(pictureTaken);
                 }
                 break;
             }
@@ -360,6 +363,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 //                ImageCollection.addImage(s_isbn, dlITask.getImage());
                 if(dlITask != null){
                     ImageCollection.addImage(s_isbn, dlITask.getImage());
+                } else if(pictureTaken != null) {
+                    ImageCollection.addImage(s_isbn, pictureTaken);
+
                 }
             } else {
                 text = "Your book can't be create";

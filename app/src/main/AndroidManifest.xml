@@ -39,6 +39,16 @@
             android:name=".BookDetail"
             android:label="@string/title_activity_book_detail" >
         </activity>
+        <activity android:name=".FormationCameraActivity"
+            android:label="@string/app_name" android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
+
+
+
