@@ -115,7 +115,7 @@ public class FormationCameraActivity extends Activity implements SurfaceHolder.C
         Camera.Parameters parameters = camera.getParameters();
 
         // Nous changeons la taille
-        parameters.setPreviewSize(width, height);
+        //parameters.setPreviewSize(width, height);
 
         // Nous appliquons nos nouveaux paramètres
         camera.setParameters(parameters);
