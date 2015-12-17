@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.Image;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -282,6 +283,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
                     byte[] picture = intent.getByteArrayExtra(FormationCameraActivity.DATA_PICTURE_TAKEN);
                     ImageView image = (ImageView) v.findViewById(R.id.EditImage);
                     pictureTaken = BitmapFactory.decodeByteArray(picture,0,picture.length);
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(90);
+                    pictureTaken = Bitmap.createBitmap(pictureTaken, 0, 0, pictureTaken.getWidth(), pictureTaken.getHeight(), matrix, true);
                     image.setImageBitmap(pictureTaken);
                 }
                 break;
