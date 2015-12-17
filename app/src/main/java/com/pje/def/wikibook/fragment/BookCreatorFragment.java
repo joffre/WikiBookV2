@@ -217,7 +217,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
     public void onPause(){
         if(getActivity()!=null)
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onPause();
     }
 
@@ -268,7 +268,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if(getActivity()!=null)
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //retrieve result of scanning - instantiate ZXing object
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         switch(requestCode) {
@@ -354,7 +354,7 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
                 year.getText().clear();
                 isbn.getText().clear();
                 spinner.setSelection(0);
-                ImageCollection.addImage(s_isbn, dlITask.getImage());
+//                ImageCollection.addImage(s_isbn, dlITask.getImage());
             } else {
                 text = "Your book can't be create";
             }
