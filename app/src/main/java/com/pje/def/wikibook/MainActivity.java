@@ -1,5 +1,6 @@
 package com.pje.def.wikibook;
 
+import android.content.pm.ActivityInfo;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
