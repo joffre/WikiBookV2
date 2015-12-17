@@ -19,8 +19,12 @@ public class BookCollection {
 
     public BookCollection() {
 
-            }
+    }
 
+    /**
+     * Request on the db, get the list of all the books
+     * @return
+     */
     public static List<Book> getBooks() {
         List<Book> books = new ArrayList<Book>();
         try{
@@ -36,6 +40,11 @@ public class BookCollection {
         return books;
     }
 
+    /**
+     * Request on the db, get book with a ISBN
+     * @param isbn
+     * @return
+     */
     public static Book getBook(String isbn){
         try {
             QueryBuilder<BookDetails, Integer> queryBuilder = MainActivity.getHelper().getBookDao().queryBuilder();
@@ -51,6 +60,11 @@ public class BookCollection {
         return null;
     }
 
+    /**
+     * Add a book in the DB
+     * @param book
+     * @return
+     */
     public static Boolean addBook(Book book) {
         try{
             MainActivity.getHelper().getBookDao().create(book.getBookDetails());
@@ -60,6 +74,11 @@ public class BookCollection {
         }
     }
 
+    /**
+     * Remove the book with the following ISBN in the db
+     * @param isbn
+     * @return
+     */
     public static boolean removeBook(String isbn){
 
         try{
@@ -73,6 +92,10 @@ public class BookCollection {
         }
     }
 
+    /**
+     * Removd all the books in the db
+     * @return
+     */
     public static boolean removeAll(){
         for(Book book : getBooks()){
                removeBook(book.getIsbn());
@@ -80,6 +103,11 @@ public class BookCollection {
         return true;
     }
 
+    /**
+     * Get all the books which match with the filter
+     * @param filter
+     * @return
+     */
     public static List<Book> getBooks(BookFilter filter){
         List<Book> filtredBooks = new ArrayList<Book>();
         try {

@@ -84,6 +84,13 @@ public class BookFilterCatalogFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    /**
+     * Initialize all the elements of the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -101,6 +108,9 @@ public class BookFilterCatalogFragment extends Fragment {
         majFilterBookList();
     }
 
+    /**
+     * Update the filter list
+     */
     public void majFilterBookList(){
         List<Map<String, String>> l_filter = new ArrayList<Map<String, String>>();
         for (BookFilter bookFilter : BookFilterCollection.getBookFilters()) {
@@ -149,7 +159,7 @@ public class BookFilterCatalogFragment extends Fragment {
                 getActivity().setTitle(itemClickedName);
             }
         } else {
-            System.out.println("NULLLLLLLLLLLL");
+
         }
     }
 

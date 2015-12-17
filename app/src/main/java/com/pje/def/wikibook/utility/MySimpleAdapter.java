@@ -9,7 +9,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.pje.def.wikibook.R;
-import com.pje.def.wikibook.model.ImageCollection;
+import com.pje.def.wikibook.bdd.ImageCollection;
 
 import java.util.HashMap;
 import java.util.List;

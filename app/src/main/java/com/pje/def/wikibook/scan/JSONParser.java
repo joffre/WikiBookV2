@@ -32,6 +32,9 @@ public class JSONParser {
         genre = "";
     }
 
+    /**
+     * Fill the JSONParser with the JSON file information
+     */
     public void parseJSON (){
         try {
             JSONArray bookArray = this.result.getJSONArray("items");
@@ -64,6 +67,7 @@ public class JSONParser {
         }
     }
 
+    //GETTER & SETTER
     public String getObject() {
         return object;
     }

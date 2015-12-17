@@ -72,6 +72,13 @@ public class BookDetailFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    /**
+     *initialize all the element of the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -140,12 +147,6 @@ public class BookDetailFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        /*try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
@@ -171,6 +172,10 @@ public class BookDetailFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * Delete a book
+     */
     public void delAction() {
         BookCollection.removeBook(mParam1.getIsbn());
         if(getResources().getConfiguration().orientation == 2) {
@@ -211,6 +216,10 @@ public class BookDetailFragment extends Fragment {
         if(bEdit != null)
         majInfoBook();
     }
+
+    /**
+     * Update book information
+     */
     public void majInfoBook() {
 
         ImageView cover = (ImageView) v.findViewById(R.id.img_cover);

@@ -64,10 +64,10 @@ public class BookCollectionFragment extends Fragment {
         return fragment;
     }
 
-    int lastItemClicked = -1;
-    Map<Integer, String> selectedItems;
-    boolean selectionMode = false;
-    Menu menuCollection;
+    private int lastItemClicked = -1;
+    private Map<Integer, String> selectedItems;
+    private boolean selectionMode = false;
+    private Menu menuCollection;
 
     final String BOOK_TO_EDIT = "book_edit";
     private ListView bookList;
@@ -89,6 +89,13 @@ public class BookCollectionFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    /**
+     * Initialize all the elements of the view contains in the main activity
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -142,6 +149,7 @@ public class BookCollectionFragment extends Fragment {
             }
         });
 
+        //Manage the long click to delete multiple books
         bookList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -167,7 +175,6 @@ public class BookCollectionFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        System.out.println("On resume");
         majListBook();
     }
 
@@ -211,6 +218,9 @@ public class BookCollectionFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * update all the elements of the list book
+     */
     private void majListBook() {
         List<Map<String, String>> l_books = new ArrayList<Map<String, String>>();
 
@@ -259,6 +269,9 @@ public class BookCollectionFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Delete all the selected books
+     */
     public void deleteAction() {
         if(selectionMode && !selectedItems.isEmpty()) {
             for(String isbn : selectedItems.values()){

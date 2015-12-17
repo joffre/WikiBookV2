@@ -13,12 +13,15 @@ import com.android.volley.toolbox.Volley;
 import com.pje.def.wikibook.fragment.BookCreatorFragment;
 
 /**
+ * Do the request to GoogleBook and fill the JSONParser
  * Created by Sim on 18/11/2015.
  */
 public class HttpRequest {
 
+    /**
+     * Use to parse the JSON fil which contain the book information
+     */
     public JSONParser parser;
-    public String test;
 
     public void doHttpRequest (String url, final MainActivity activity, final BookCreatorFragment fragment){
 
@@ -30,12 +33,9 @@ public class HttpRequest {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        Log.v("HTTP onResponse", "Response is: " + response);
-                        test = response;
                         parser = new JSONParser(response);
-                        Log.v("Parser State", "State is: " + parser);
-                       parser.parseJSON();
+
+                        parser.parseJSON();
                         fragment.remplirChamps(parser);
                     }
                 }, new Response.ErrorListener() {
@@ -47,6 +47,5 @@ public class HttpRequest {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-        Log.v("TEST", stringRequest.toString());
     }
 }

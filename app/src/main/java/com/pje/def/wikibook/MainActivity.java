@@ -35,27 +35,19 @@ public class MainActivity extends AppCompatActivity {
     private static DatabaseHandler databaseHandler = null;
     private static boolean isInitialized;
 
+
+    /**
+     * Initialize all the elements of the view
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initHelper();
         setContentView(R.layout.activity_main);
         if(!isInitialized) {
-               /* books.addBook(new Book("Oui-Oui à la cantine", "Oui-oui Himself", "Jeunesse", "1994", "Oui-Oui mange à la cantine", "00001", R.drawable.icone));
-                //books.addBook(new Book("Kamasutra","God Himself","Chasse","-870","Recueil","00002",R.drawable.icone));
-                books.addBook(new Book("Harry Potter et à l'école des sorciers", "J.K. Rowling", "Jeunesse", "1992", "Un jeune sorcier découvre la magie", "00003", R.drawable.icone));
-                books.addBook(new Book("Harry Potter et la chambre des secrets", "J.K. Rowling", "Jeunesse", "1994", "La chambre des secrets est ouverte ...", "00004", R.drawable.icone));
-                books.addBook(new Book("Harry Potter et le prisonnier d'Askaban", "J.K. Rowling", "Jeunesse", "1999", "Harry rencontre son oncle...", "00005", R.drawable.icone));
-                books.addBook(new Book("Titeuf", "Zep", "Jeunesse", "2005", "Tchô !!", "00006", R.drawable.icone));
-                books.addBook(new Book("Asterix", "Uderzo", "Tout public", "1999", "Ils sont fou ces romains", "00007", R.drawable.icone));
-               */
-
-                /*List<FilterDetails> filtersDetails = getHelper().getFilterDao().queryForAll();
-                for(FilterDetails filterDetails : filtersDetails){
-                    filters.addBookFilter(new BookFilter(filterDetails));
-                }*/
-            ImageCollection.init();
-                isInitialized = true;
+           ImageCollection.init();
+           isInitialized = true;
         }
         // Initializing Toolbar and setting it as the actionbar
         if(getResources().getConfiguration().orientation == 2) {
@@ -103,17 +95,14 @@ public class MainActivity extends AppCompatActivity {
                     // For rest of the options we just show a toast on click
 
                     case R.id.add_book:
-                        Toast.makeText(getApplicationContext(), "Add Book Selected", Toast.LENGTH_SHORT).show();
                         BookCreatorFragment fragmentBookCreator = new BookCreatorFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCreator, "BOOK_CREATOR").commit();
                         return true;
                     case R.id.filter_list:
-                        Toast.makeText(getApplicationContext(),"Filter List Selected",Toast.LENGTH_SHORT).show();
                         BookFilterCatalogFragment fragmentBookFilterCatalog = new BookFilterCatalogFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookFilterCatalog).commit();
                         return true;
                     case R.id.create_filter:
-                        Toast.makeText(getApplicationContext(),"Create Filter Selected",Toast.LENGTH_SHORT).show();
                         BookFilterCreatorFragment fragmentBookFilterCreator = new BookFilterCreatorFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookFilterCreator).commit();
                         return true;
@@ -156,19 +145,10 @@ public class MainActivity extends AppCompatActivity {
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
-  /*  @Override
-    public void onSaveInstanceState(Bundle state)
-    {
-        if (getResources().getConfiguration().orientation == 2 && getSupportFragmentManager().findFragmentById(R.id.frameDetail) != null)
-        {
-            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-            android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-            ft.remove(getSupportFragmentManager().findFragmentById(R.id.frameDetail));
-            ft.commit();
-        }
 
-        super.onSaveInstanceState(state);
-    }*/
+    /**
+     * Initialize the dataBase
+     */
     public void initHelper(){
         if(databaseHandler == null){
             databaseHandler = OpenHelperManager.getHelper(this, DatabaseHandler.class);

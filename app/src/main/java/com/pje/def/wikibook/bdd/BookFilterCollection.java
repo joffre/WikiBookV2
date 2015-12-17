@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Manage the bookFilterCollection
  * Created by Geoffrey on 07/10/2015.
  */
 public class BookFilterCollection {
@@ -24,6 +25,10 @@ public class BookFilterCollection {
 
     }
 
+    /**
+     * Request db, Get all the bookFilter in the db
+     * @return
+     */
     public static List<BookFilter> getBookFilters(){
         List<BookFilter> filters = new ArrayList<BookFilter>();
         try{
@@ -37,13 +42,22 @@ public class BookFilterCollection {
         return filters;
     }
 
+    /**
+     * add a bookFilter in the db
+     * @param bookFilter
+     * @return
+     */
     public static boolean addBookFilter(BookFilter bookFilter){
         return addBookFilter(bookFilter.getFilterDetails());
     }
 
+    /**
+     * add bookFilter in the db
+     * @param bookFilter
+     * @return
+     */
     public static boolean addBookFilter(FilterDetails bookFilter){
         try{
-            System.out.println("Ajout de :" + bookFilter);
             MainActivity.getHelper().getFilterDao().create(bookFilter);
             return true;
         } catch(SQLException exception){
@@ -51,6 +65,11 @@ public class BookFilterCollection {
         }
     }
 
+    /**
+     * remove the following filter in the db
+     * @param name
+     * @return
+     */
     public static boolean removeBookFilter(String name){
         try{
             System.out.println("Suppression de  : " + name);
@@ -63,6 +82,11 @@ public class BookFilterCollection {
         }
     }
 
+    /**
+     * Request in the db, get a filter with its name
+     * @param name
+     * @return
+     */
     public static BookFilter getBookFilter(String name){
         try {
             QueryBuilder<FilterDetails, Integer> queryBuilder = MainActivity.getHelper().getFilterDao().queryBuilder();

@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 /**
+ * Intent integrator adapted to the fragment
  * Created by Geoffrey on 03/12/2015.
  */
-
 public final class FragmentIntentIntegrator extends IntentIntegrator {
 
     private final Fragment fragment;

@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
+ * Manage the image collection
  * Created by Geoffrey on 16/12/2015.
  */
 public class ImageCollection {
@@ -17,6 +18,9 @@ public class ImageCollection {
     private static final String IMAGE_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath() +File.separator+"covers/";
     private static final String IMAGE_FORMAT = ".jpg";
 
+    /**
+     * initialization of the image Folder
+     */
     public static void init(){
         File directory = new File(IMAGE_FOLDER);
         if(!directory.exists()){
@@ -24,6 +28,11 @@ public class ImageCollection {
         }
     }
 
+    /**
+     * Get the image with its isbn book
+     * @param isbn
+     * @return
+     */
     public static Bitmap getImage(String isbn){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -35,6 +44,12 @@ public class ImageCollection {
         return new File(getPath(isbn)).exists();
     }
 
+    /**
+     * Add an image with a isbn
+     * @param isbn
+     * @param image
+     * @return
+     */
     public static boolean addImage(String isbn, Bitmap image){
         if(image == null) return false;
         File file = new File(getPath(isbn));

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Manage the Genre collection
  * Created by Sim on 03/12/2015.
  */
 public class GenreCollection {
@@ -20,6 +21,10 @@ public class GenreCollection {
 
     }
 
+    /**
+     * request in the db, get all the genre
+     * @return
+     */
     public static List<Genre> getGenres(){
         List<Genre> gender = new ArrayList<Genre>();
         try{
@@ -34,7 +39,12 @@ public class GenreCollection {
         return gender;
     }
 
-    public static Genre getGender(int genreId)
+    /**
+     * get a gender with its id
+     * @param genderId
+     * @return
+     */
+    public static Genre getGender(int genderId)
     {
         try{
             QueryBuilder<GenreDetails, Integer> queryBuilder = MainActivity.getHelper().getGenreDao().queryBuilder();
@@ -49,6 +59,11 @@ public class GenreCollection {
         return null;
     }
 
+    /**
+     * add a genre in the db
+     * @param genre
+     * @return
+     */
     public static Boolean addGender(Genre genre){
         try{
             MainActivity.getHelper().getGenreDao().create(genre.getBookDetails());
@@ -58,9 +73,13 @@ public class GenreCollection {
         }
     }
 
+    /**
+     * remove a genre with the following id
+     * @param genreId
+     * @return
+     */
     public static boolean removeGender(int genreId){
         try{
-            System.out.println("Suppression de  : " + genreId);
             DeleteBuilder<GenreDetails, Integer> deleteBuilder = MainActivity.getHelper().getGenreDao().deleteBuilder();
             deleteBuilder.where().eq("genre_id", genreId);
             deleteBuilder.delete();

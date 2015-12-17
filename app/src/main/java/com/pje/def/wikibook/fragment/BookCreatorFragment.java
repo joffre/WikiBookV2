@@ -109,6 +109,13 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         dlITask = null;
     }
 
+    /**
+     * Initialize all the elements of the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -142,11 +149,13 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         genreSpinner = (Spinner)v.findViewById(R.id.spinner1);
 
+        // initialize the genre spinner
         final List<String> arrayGenre = GenreCollection.getGendersToString();
         arrayGenre.add("Add a new gender");
         ArrayAdapter my_adapter = new ArrayAdapter(getActivity(), R.layout.spinner_row, arrayGenre);
         genreSpinner.setAdapter(my_adapter);
         genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            // set editText VISIBLE if the spinner value is "Add new Gender"
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -167,10 +176,6 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
         vCF = v;
 
-        if(GenreCollection.getGenres().size() > 0) {
-            Log.d("TEST", GenreCollection.getGenres().get(1).getGenreTitle().toString());
-            System.out.println(GenreCollection.getGenres().get(1).getGenreTitle().toString());
-        }
         return v;
     }
 
@@ -220,6 +225,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         //New intent : GenreCretor
     }
 
+    /**
+     * Action to scan a book
+     */
     public void scanBook ()
     {
         //instantiate ZXing integration class
@@ -230,6 +238,10 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
 
     }
 
+    /**
+     * Fill the editText with the information of the parser after the scan
+     * @param parser
+     */
     public void remplirChamps(JSONParser parser){
        /* BookCreatorFragment fragmentBookCreator = new BookCreatorFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragmentBookCreator, "BOOK_CREATOR").commit();
@@ -245,13 +257,9 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
             EditText description = (EditText)v.findViewById(R.id.EditDescription);
             description.setText(parser.getDescription());
 
-            /*EditText genre = (EditText)findViewById(R.id.EditGenre);
-            genre.setText(book.getGender());*/
             EditText isbn = (EditText)v.findViewById(R.id.EditIsbn);
             isbn.setText(parser.getIsbn());
-            Log.v("TEST", parser.getAuthor());
-            Log.v("TEST", parser.getTitle());
-            Log.v("TEST", parser.getYear());
+
             if(parser.getThumbnail() != null && !parser.getThumbnail().isEmpty()) {
                 dlITask = new DownloadImageTask((ImageView) v.findViewById(R.id.EditImage));
                 dlITask.execute(parser.getThumbnail());
@@ -315,13 +323,16 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
         }
 
     }
+
+    /**
+     * create a new book and add it in the DataBase
+     */
     private void createBook()
     {
         EditText title = (EditText)getActivity().findViewById(R.id.EditTitle);
         EditText author = (EditText)getActivity().findViewById(R.id.EditAuthor);
         EditText description = (EditText)getActivity().findViewById(R.id.EditDescription);
         EditText year = (EditText)getActivity().findViewById(R.id.EditYear);
-        //EditText genre = (EditText)getActivity().findViewById(R.id.EditGenre);
         EditText isbn = (EditText)getActivity().findViewById(R.id.EditIsbn);
         Spinner spinner = (Spinner)getActivity().findViewById(R.id.spinner1);
 

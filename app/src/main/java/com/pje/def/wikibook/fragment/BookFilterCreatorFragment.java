@@ -80,6 +80,13 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
         getActivity().setTitle("Filter Creator");
     }
 
+    /**
+     * Initialize all the element of the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -137,6 +144,9 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
         public void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * create the new Book Filter
+     */
     private void createBookFilter() {
         Map<BookFilter.FilterType, String> criteria = new HashMap<BookFilter.FilterType, String>();
         EditText name = (EditText) getActivity().findViewById(R.id.CriterionName);
