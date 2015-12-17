@@ -355,7 +355,6 @@ public class BookCreatorFragment extends Fragment implements View.OnClickListene
                 year.getText().clear();
                 isbn.getText().clear();
                 spinner.setSelection(0);
-//                ImageCollection.addImage(s_isbn, dlITask.getImage());
                 if(dlITask != null){
                     ImageCollection.addImage(s_isbn, dlITask.getImage());
                     dlITask = null;
