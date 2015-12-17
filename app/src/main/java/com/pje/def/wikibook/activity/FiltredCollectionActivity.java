@@ -15,6 +15,7 @@ import com.pje.def.wikibook.model.Book;
 import com.pje.def.wikibook.model.BookCollection;
 import com.pje.def.wikibook.model.BookFilter;
 import com.pje.def.wikibook.model.BookFilterCollection;
+import com.pje.def.wikibook.utility.MySimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +52,7 @@ public class FiltredCollectionActivity extends AppCompatActivity {
             l_filtred_books.add(bookMap);
         }
 
-        SimpleAdapter listAdapter = new SimpleAdapter(this.getBaseContext(), l_filtred_books, R.layout.book_detail,
+        MySimpleAdapter listAdapter = new MySimpleAdapter(this.getBaseContext(), l_filtred_books, R.layout.book_detail,
                 /*ajout gender*/
                 new String[] {"img", "author", "title", "gender", "isbn", "year", "description"},
                 new int[] {R.id.img_cover, R.id.author, R.id.title, R.id.gender, R.id.isbn, R.id.year, R.id.description});
