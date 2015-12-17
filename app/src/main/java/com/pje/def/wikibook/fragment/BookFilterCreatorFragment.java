@@ -146,7 +146,7 @@ public class BookFilterCreatorFragment extends Fragment implements View.OnClickL
         EditText isbn = (EditText) getActivity().findViewById(R.id.CriterionIsbn);
 
         String gender;
-        if(genreSpinner.getSelectedItem().toString().equals("No Gender Filter")){
+        if(genreSpinner.getSelectedItem().toString().equals("No Gender")){
             gender = "";
         } else {
             gender = genreSpinner.getSelectedItem().toString();
